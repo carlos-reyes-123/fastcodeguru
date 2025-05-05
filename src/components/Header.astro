@@ -11,6 +11,9 @@ import { SITE } from "@/config";
 
 const { pathname } = Astro.url;
 
+// other imports
+import WebsiteLogo from "@/assets/images/fastcodeguru-logo-horiz.svg";
+
 // Remove trailing slash from current pathname if exists
 const currentPath =
   pathname.endsWith("/") && pathname !== "/" ? pathname.slice(0, -1) : pathname;
@@ -43,6 +46,7 @@ const isActive = (path: string) => {
         href="/"
         class="absolute py-1 text-2xl leading-7 font-semibold whitespace-nowrap sm:static"
       >
+        <WebsiteLogo class="size-32 dark:invert" />
         {SITE.title}
       </a>
       <nav
