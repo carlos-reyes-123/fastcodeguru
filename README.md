@@ -1,4 +1,8 @@
-# AstroPaper 📄
+# Fast Code Guru
+
+This is the source code for the static website [fastcode.guru](https://fastcode.guru), built using [Astro](https://astro.build/) and the [AstroPaper](https://github.com/satnaing/astro-paper) theme.
+
+## AstroPaper 📄
 
 ![AstroPaper](public/astropaper-og.jpg)
 [![Figma](https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white)](https://www.figma.com/community/file/1356898632249991861)
