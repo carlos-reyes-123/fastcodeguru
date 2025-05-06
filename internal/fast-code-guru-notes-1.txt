@@ -52,3 +52,7 @@ Seashell        #FFF5EE     Light and warm; slight rose tint.
 https://creativebooster.net/blogs/colors/cream-color-palettes
 
 # -------------------------------------------------------------------
+# Giscus
+https://giscus.app/
+https://astro-paper.pages.dev/posts/how-to-integrate-giscus-comments/
+https://github.com/settings/installations/65931895
