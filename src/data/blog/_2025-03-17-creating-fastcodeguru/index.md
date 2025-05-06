@@ -25,7 +25,7 @@ tags        = [
 
 ## Why another C++ performance blog?
 
-> *“The field is crowded with excellent but siloed voices… nobody is consistently marrying real-world C++ performance work with clear, story-driven writing and real-world examples.”*
+> *The field is crowded with excellent but siloed voices… nobody is consistently marrying real-world C++ performance work with clear, story-driven writing and real-world examples.*
 
 FastCode.Guru set out to close that gap. The editorial mission was ambitious, but the infrastructure goal was blunt-force simple:
 
@@ -40,8 +40,8 @@ That checklist ruled out heavyweight CMSs and framed the rest of the build.
 ## Update! This article describes the legacy website
 
 FastCode.Guru is no longer being built using the Hugo static website generator, as described in this article.
-The achilles heel of many website generators is the theme templates. Most these are throwaway projects,
-not getting many updates after the initial release. I gave up on Hugo because I could find a theme I liked
+The achilles heel of many website generators is the theme templates. Most of these are throwaway projects,
+not getting many updates after the initial release. I gave up on Hugo because I could not find a theme I liked
 and was still being updated.
 
 I explored many alternatives until settling on Astro[^astro]. This will be subject of a future blog article,

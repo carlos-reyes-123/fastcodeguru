@@ -15,7 +15,7 @@ tags        = [
 ]
 +++
 
-> Unit tests are the double-entry bookkeeping of software engineering: they cost something, but you discover errors while they are still inexpensive.
+> *Unit tests are the double-entry bookkeeping of software engineering: they cost something, but you discover errors while they are still inexpensive.*
 
 — Paraphrasing Martin Fowler
 
