@@ -1,5 +1,5 @@
 +++
-draft       = false
+draft       = true
 featured    = false
 title       = "How I Write a Correct Copy Constructor in C++23"
 slug        = "correct-c++23-copy-constructor"
@@ -51,7 +51,7 @@ struct Vec3 {
 
 Because trivial/pod types can be copied with `std::memmove` under the hood, these implicitly-generated copy constructors are **very fast**. In fact, if your class is *trivially copyable* (no virtuals, no base classes, all members trivially copyable), the compiler might elide the copy entirely or do an optimized memcpy.
 
-By default (since C++11), the implicitly-declared copy constructor has an *exception specification* based on the members, and since C++23 it is a `constexpr` function if possible. In other words, in C++23 an implicitly-defined copy ctor is automatically `constexpr` whenever it can be (as long as all sub-objects’ copy ctors are also `constexpr`), which lets you use it in constant expressions.
+By default (since C++11), the implicitly-declared copy constructor has an *exception specification* based on the members, and since C++23 it is a `constexpr` function if possible. In other words, in C++23 an implicitly-defined copy constructor is automatically `constexpr` whenever it can be (as long as all sub-objects’ copy ctors are also `constexpr`), which lets you use it in constant expressions.
 
 However, there are a few **gotchas** to be aware of:
 

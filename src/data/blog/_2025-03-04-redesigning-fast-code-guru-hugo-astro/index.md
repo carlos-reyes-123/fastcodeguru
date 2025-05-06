@@ -21,7 +21,7 @@ tags        = [
 ]
 +++
 
-![Redesigning FastCode.Guru](./redesigning-fast-code-guru-hugo-astro.png)
+![Redesigning FastCode.Guru](./redesigning-fast-code-guru-hugo-astro.png "Redesigning FastCode.Guru")
 
 ## Table of Contents
 

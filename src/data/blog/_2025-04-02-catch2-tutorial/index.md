@@ -4,7 +4,7 @@ featured    = false
 title       = "Unit Testing at Speed with Catch2"
 slug        = "unit-testing-speed-catch2"
 description = "A practical guide to Catch2 v3 for modern C++ projects."
-ogImage     = "./catch2-tutorial.png"
+ogImage     = "./catch2-tutorial-kids.png"
 author      = "Carlos Reyes"
 pubDatetime = 2025-04-02T16:00:00Z
 tags        = [
@@ -19,7 +19,7 @@ tags        = [
 
 — Paraphrasing Martin Fowler
 
-![Catch2 unit testing](./catch2-tutorial.png)
+![Catch2 unit testing](./catch2-tutorial-kids.png "Catch2 unit testing")
 
 ## Table of Contents
 

@@ -4,7 +4,7 @@ featured    = false
 title       = "Bit-twiddling vs. Logic in Modern C++"
 slug        = "bit-twiddling-logic-modern-c++"
 description = "Why `if (a & b)` is not a free lunch."
-ogImage     = "./bitwise-vs-logical-and.png"
+ogImage     = "./bitwise-vs-logical-and-or.png"
 pubDatetime = 2025-02-11T16:00:00Z
 author      = "Carlos Reyes"
 tags        = [
@@ -27,7 +27,7 @@ tags        = [
 
 > Branching is slow, so replace `&&` with `&` (or `||` with `|`) and the optimizer will thank you.
 
-![C++ bit-twiddling if and or](./bitwise-vs-logical-and.png)
+![C++ bit-twiddling if and or](./bitwise-vs-logical-and-or.png "C++ bit-twiddling if and or")
 
 That advice shows up in code reviews, on Reddit threads, and even in seasoned code bases. The intuition is simple:
 
