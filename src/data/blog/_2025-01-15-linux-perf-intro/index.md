@@ -18,7 +18,7 @@ tags        = [
 ]
 +++
 
-![Linux Perf](./linux-perf.png)
+![Linux Perf](./linux-perf.png "Linux Perf")
 
 ## Table of Contents
 

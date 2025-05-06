@@ -17,7 +17,9 @@ tags        = [
 Images with the same filename and alternate formats (such as webp or avif)
 will automatically be selected and loaded if appropriate.
 
-![Jane Doe](./linux-logo-tux.svg "Linux Tux logo")
+![Linux Tux logo](./linux-logo-tux.svg "Linux Tux logo")
+
+## Table of Contents
 
 ---
 
