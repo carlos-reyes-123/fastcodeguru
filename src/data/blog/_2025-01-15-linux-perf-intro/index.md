@@ -2,7 +2,7 @@
 draft       = false
 title       = "Practical Profiling with perf on Linux"
 slug        = "practical-profiling-perf-linux"
-description = "`perf` is the user-space front-end to the Linux **perf_event** subsystem (the `perf_event_open(2)` syscall). It offers a uniform command-line interface to **hardware Performance-Monitoring Units (PMU), kernel trace-points, software counters, kprobes/uprobes, and eBPF** events, hiding the architectural quirks of each CPU family."
+description = "`perf` is the user-space front-end to the Linux perf_event subsystem."
 ogImage     = "./linux-perf.png"
 author      = "Carlos Reyes"
 pubDatetime = 2025-01-15T16:00:00Z
