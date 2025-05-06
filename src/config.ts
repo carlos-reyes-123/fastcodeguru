@@ -4,7 +4,7 @@ export const SITE = {
   profile: "",
   desc: "A place to discuss software performance and quality from the perspective of computer programmers.",
   title: "Fast Code Guru",
-  ogImage: "fastcodeguru-logo-1200x630.png",
+  ogImage: "/images/fastcodeguru-logo-1200x630.png",
   lightAndDarkMode: true,
   postPerIndex: 4,
   postPerPage: 4,
@@ -14,7 +14,7 @@ export const SITE = {
   editPost: {
     enabled: true,
     text: "Suggest Changes",
-    url: "https://github.com/satnaing/astro-paper/edit/main/",
+    url: "https://github.com/carlos-reyes-123/fastcodeguru/edit/main/",
   },
   dynamicOgImage: true,
   lang: "en", // html lang code. Set this empty and default will be "en"

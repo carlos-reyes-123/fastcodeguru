@@ -5,7 +5,7 @@ title       = "FastCode.Guru Website, Inside & Out"
 slug        = "fast-code-guru-website-inside-out"
 description = "How a $3 Domain, Hugo 0.147, and Cloudflare Pages power a lightning-fast C++ blog."
 ogImage     = "./creating-fastcodeguru.png"
-pubDatetime = 2025-03-17T16:00:00Z
+pubDatetime = 2025-02-03T16:00:00Z
 author      = "Carlos Reyes"
 tags        = [
     "beginner",
@@ -21,13 +21,13 @@ tags        = [
 
 **How a $3 Domain, Hugo 0.147, and Cloudflare Pages Power a Lightning-Fast C++ Blog**
 
+![FastCode.Guru website](./creating-fastcodeguru.png)
+
 ---
 
 ## Why another C++ performance blog?
 
 > *The field is crowded with excellent but siloed voices… nobody is consistently marrying real-world C++ performance work with clear, story-driven writing and real-world examples.*
-
-![FastCode.Guru website](./creating-fastcodeguru.png)
 
 FastCode.Guru set out to close that gap. The editorial mission was ambitious, but the infrastructure goal was blunt-force simple:
 
@@ -47,9 +47,11 @@ not getting many updates after the initial release. I gave up on Hugo because I 
 and was still being updated.
 
 I explored many alternatives until settling on Astro[^astro]. This will be subject of a future blog article,
-but so far, I am extremely happy with my choice.
+but so far, I am extremely happy with my choice.[^new-article]
 
 [^astro]: [https://astro.build/](https://astro.build/)
+
+[^new-article]: [/posts/redesigning-fast-code-guru-hugo-astro](/posts/redesigning-fast-code-guru-hugo-astro)
 
 ---
 
