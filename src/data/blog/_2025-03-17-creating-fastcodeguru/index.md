@@ -27,6 +27,8 @@ tags        = [
 
 > *The field is crowded with excellent but siloed voices… nobody is consistently marrying real-world C++ performance work with clear, story-driven writing and real-world examples.*
 
+![FastCode.Guru website](./creating-fastcodeguru.png)
+
 FastCode.Guru set out to close that gap. The editorial mission was ambitious, but the infrastructure goal was blunt-force simple:
 
 * **Near-zero latency worldwide.**

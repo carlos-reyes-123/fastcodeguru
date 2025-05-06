@@ -1,0 +1,216 @@
+﻿fastcode.guru
+possible alternative:   thesoftware.pro
+
+https://www.reddit.com/r/fastcodeguru/
+A place to discuss software performance and quality from the perspective of computer programmers.
+
+https://chatgpt.com/c/680d3201-dc34-8005-8cc7-5e8ac72fd0fa
+
+# -------------------------------------------------------------------
+# NameCheap
+
+FastCode.Guru domain registration
+$3/year initial
+$39/year renewal
+
+# -------------------------------------------------------------------
+Bottom line
+The field is crowded with excellent but siloed voices: one blog for micro-architecture, another for language design, another for readability. Nobody is consistently marrying real-world C++ performance work with clear, story-driven writing and real-world examples. Fill that niche and you won’t be “just another C++ blog”—you’ll be the go-to resource for engineers who need both speed and clarity.
+
+# -------------------------------------------------------------------
+# logo
+I run a technical blog on the web domain FastCode.Guru. It is a platform for discussing software performance and quality from the perspective of software developers and programmers. Help me create a logo. I need something intelligent, serious but fresh, and visually clean — no clichés like clipart rockets unless cleverly done.
+
+https://convertio.co/
+
+# -------------------------------------------------------------------
+# Hugo static site generator
+https://github.com/gohugoio/hugo
+https://github.com/hugomods
+https://gohugo.io/installation/linux/
+https://themes.gohugo.io/
+
+# -------------------------------------------------------------------
+# Clarity theme
+https://themes.gohugo.io/themes/hugo-clarity/
+https://github.com/chipzoller/hugo-clarity
+https://neonmirrors.net/
+
+# -------------------------------------------------------------------
+# Instant Page - web page preloading on mouse hover
+https://instant.page/
+https://github.com/instantpage/instant.page
+
+# -------------------------------------------------------------------
+# CloudFlare
+https://dash.cloudflare.com/
+https://pages.cloudflare.com/
+https://developers.cloudflare.com/pages/
+https://developers.cloudflare.com/pages/platform/limits/
+https://developers.cloudflare.com/pages/framework-guides/deploy-a-hugo-site/
+
+# hugo version
+HUGO_VERSION = 0.147.0
+HUGO_BASEURL = https://fastcode.guru/
+
+# -------------------------------------------------------------------
+# GitHub
+https://repo.new/
+https://github.com/carlos-reyes-123/fastcodeguru
+
+git init
+git remote add origin https://github.com/carlos-reyes-123/fastcodeguru
+git branch -M main
+git commit -m "Initial commit"
+git push --set-upstream origin main
+
+# -------------------------------------------------------------------
+# License
+
+# Apache 2.0
+Site-generation code, theme modifications, build scripts
+
+# CC By 4.0 - Attribution 4.0 International
+https://creativecommons.org/licenses/by/4.0/deed.en
+Article text, images, diagrams
+
+# -------------------------------------------------------------------
+# Web Picture
+# raster graphics file format developed by Google intended as a replacement for JPEG, PNG, and GIF
+# 96.81% of web browsers support it today
+https://en.wikipedia.org/wiki/WebP
+
+# open, royalty-free image file format specification for storing images or image sequences
+# compressed with AV1 in the HEIF container format
+# Better compression efficiency than JPEG as well as better detail preservation,
+# fewer blocking artifacts and less color bleeding around hard edges in composites of natural images, text, and graphics.
+# 94.61% of web browsers support it today
+https://en.wikipedia.org/wiki/AVIF
+
+# compressed raster image format
+# 14.11% of web browsers support it today
+https://en.wikipedia.org/wiki/JPEG_XL
+
+# both support PNG and JPG inputs
+yay -S libwebp libavif
+cwebp -q 80 input.png -o output.webp
+avifenc --min 30 --max 50 input.jpg output.avif
+
+# -------------------------------------------------------------------
+# Markdown Examples
+
+{{% notice note "Note" %}}
+This is a standard "note" style.
+{{% /notice %}}
+
+{{% notice info "Info" %}}
+Here is the "info" style.
+{{% /notice %}}
+
+{{% notice tip "Tip" %}}
+Here is a "tip" variant of a notice.
+{{% /notice %}}
+
+{{% notice warning "Warning" %}}
+Here is the "warning" flavor of a notice.
+{{% /notice %}}
+
+# -------------------------------------------------------------------
+{{% notice tip "Complex Notices are Possible!" %}}
+This is a notice that has a lot of various kinds of content in it.
+
+* Here is a bulleted list
+* With more than one bullet
+    * And even more than one level
+
+Code blocks are fine here, too....
+```csharp
+public void SayHello()
+{
+    Console.WriteLine("Hello, world!");
+}
+```
+{{% /notice %}}
+
+# -------------------------------------------------------------------
+# Math typesetting
+
+https://katex.org/docs/supported.html
+math = true   # globally OR
+math: true    # per page
+
+# /layouts/partials/hooks/head-end.html
+{{ if or .Params.math .Site.Params.math }}
+{{ partial "math.html" . }}
+{{ end }}
+
+# -------------------------------------------------------------------
+# Emojis
+https://www.webfx.com/tools/emoji-cheat-sheet/
+
+enableEmoji = true
+
+🙈 :see_no_evil: 🙉 :hear_no_evil: 🙊 :speak_no_evil:
+
+# optional
+.emoji {
+  font-family: Apple Color Emoji, Segoe UI Emoji, NotoColorEmoji, Segoe UI Symbol, Android Emoji, EmojiSymbols;
+}
+
+# -------------------------------------------------------------------
+# Markdown
+
+https://gohugo.io/content-management/formats/
+https://github.com/yuin/goldmark
+https://spec.commonmark.org/0.31.2/
+https://github.github.com/gfm/
+https://michelf.ca/projects/php-markdown/extra/#footnotes
+
+# -------------------------------------------------------------------
+# Compiler Explorer
+https://godbolt.org/
+
+# -------------------------------------------------------------------
+Write me an article for my blog. My blog, FastCode.Guru, is about writing high performance and high quality computer programs. I mostly use C++. The target audience is technical at a variety of skill levels. I am looking for a detailed and long article of about 2500 words. I do not want to see a wall of text. Make the article interesting.
+
+Write me an article about my redesigned website. It used to be written using the Hugo static blog generator. I ran into problems because the themes tend to be incomplete, buggy, and unmaintained. The new blog was written using Astro (https://astro.build/) and the AstroPaper theme (https://github.com/satnaing/astro-paper). Give details about both and why they were great choices. I am still using CloudFlare Pages for fast and free deployments.
+
+AstroPaper has support for Markdown, tags, search, and is highly customizable. Astro is very popular, has great documentation, and works great. I considered hosting via GitHub Pages and Vercel. But the features of CloudFlare Pages and its speed are unmatched.
+
+Include code snippets and configuration examples from Astro. Be more technical and tutorial-like in tone. Include comparisons of Hugo vs Astro. Mention SEO/Lighthouse scores in the article.
+
+# -------------------------------------------------------------------
+Write a tutorial on Catch2 v3 (https://github.com/catchorg/Catch2). Describe the CMake integration. Showcase common usage scenarios. Describe gotchas and missing features. Focus on writing clean and efficient unit tests. Talk about BDD and benchmarking tests. Talk about when one would or would not want to use Catch2 v3.
+
+Write an article about a canonical C++23 class. Use all modern practices for efficiency and correctness. Describe in detail in the article the design decisions made in the source code. Call the class StringSet. This is a collection of immutable strings (string_view), exposing range operations. Make sure the code is exception-safe and uses move semantics anywhere it makes sense. Also use concepts, stringview, range, and span as appropriate. Put all the source code in a header file (stringset.hpp). Use the include guard (#pragma once) and explain that all modern compilers support it. Add Catch2 unit tests to showcase the features. Also include a sample command line for the compiler. Use [[nodiscard]] and other attributes as appropriate.
+
+Write an article about the proper use of "noexcept" in modern C++23. Talk about its use with universal reference function and constructor parameters and concepts to ensure r-values are moved and not copied.
+
+CMake has had a long history. Now at version 4, it's commands have dramatically changed over time. In other words, modern CMake does not look much like it used to. But the need to support old build scripts has left it with a lot of baggage. Write a tutorial article on modern (version 4) CMake best practices.
+
+
+---------------------------------------------------------------------
+Talk about the design and implementation of my website (FastCode.Guru). The attached file contains my notes about the process. The website uses the Hugo static website generator and CloudFlare Pages. My only expense so far was about $3 for the domain name registration. The website is actually hosted on GitHub. Updating is very easy. The website is very fast and even includes a free email forwarder. Talk about the pros and cons of this approach vs others.
+
+Many C++ computer programmers use something like "if (a & b)" when they actually want logical AND. They do that to avoid the penalty of "&&" short-circuit evaluation. I find this usage confusing and error-prone. Write me an article discussing the pros and cons of both approaches. I have learned that C++ compilers do not perform short-circuit evaluation of "&&" if the second variable ("b") does not require computations, especially without side effects. Mention this fact in the article, too.
+
+---------------------------------------------------------------------
+Implement a minimal and clean website design using Tailwind 4.1 and Catalyst. Design this as a completely new website. This is a website for a blog.
+
+The website needs to work with Hugo 0.147.0. Use Tailwind CSS 4.1 for the visual design elements. Leverage the features of Tailwind to create an attractive and clean website design. Make sure the source code is well-commented. Make sure the website looks good on mobile devices and on desktops. There is only the need to support American English for the language. Include pagination for lists like blog posts. Include a good set of configuration options. Use Tailwind default colors.
+
+I need support for a thumbnail image for each post to show in post lists. Add a simple footer containing the copyright notice with a year that auto updates.
+
+Add support for Instant.page (https://instant.page/), the JavaScript for preloading pages on mouse hover. Add support for pagefind (https://pagefind.app/) for full-text indexing and search. Add a menu bar at the top. Add a sidebar at the right side.
+
+Add support for a logo image on the left side of the top menu bar. Place the sections' Home', 'Legal', 'About', and 'Contact' in the top bar. Add social media links to LinkedIn and GitHub on the right side of the top menu bar. Add support for a dark theme, accessible via a toggle on the right side of the top menu bar.
+
+On the right sidebar, put a search bar, an author bio with a picture, a disclaimer, Recent Posts, Categories, and Tags sections. Stick with Tailwind defaults for the font. Show the sidebar below the main content on mobile devices.
+
+Add transparent support for webp and avif image formats. This needs to be coded as alternate image formats for images in png or jpg formats. I will supply images in these formats as appropriate.
+
+If useful, add a Bash script file to make full site rebuilding easier.
+
+Call the theme "fast-code-guru". Do not make the author bio or disclaimer sections collapsible. Do not make any of the sidebar sections collapsible. Make the list pages use numbered pagination. Add configuration options for social media URLs, logo path, author bio, disclaimer, etc through the config file.
+
+---------------------------------------------------------------------

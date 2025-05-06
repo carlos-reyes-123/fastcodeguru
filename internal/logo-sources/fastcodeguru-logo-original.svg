@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="160" height="160" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+  <!-- Colors -->
+  <!-- Navy: #003C56 ; Lime: #9BCB00 -->
+
+  <!-- Microchip body -->
+  <rect x="40" y="40" width="80" height="80" rx="10" fill="#003C56"/>
+
+  <!-- Pins (top) -->
+  <rect x="60" y="0"   width="8" height="20" fill="#003C56"/>
+  <rect x="76" y="0"   width="8" height="20" fill="#003C56"/>
+  <rect x="92" y="0"   width="8" height="20" fill="#003C56"/>
+
+  <!-- Pins (bottom) -->
+  <rect x="60" y="140" width="8" height="20" fill="#003C56"/>
+  <rect x="76" y="140" width="8" height="20" fill="#003C56"/>
+  <rect x="92" y="140" width="8" height="20" fill="#003C56"/>
+
+  <!-- Pins (left) -->
+  <!-- Top left pin -->
+  <rect x="0"  y="60"  width="20" height="8" fill="#003C56"/>
+  <!-- Middle left pin (longer for speed effect) -->
+  <rect x="0"  y="76"  width="30" height="8" fill="#003C56"/>
+  <!-- Bottom left pin -->
+  <rect x="0"  y="92"  width="20" height="8" fill="#003C56"/>
+
+  <!-- Code symbol -->
+  <text x="80" y="103" text-anchor="middle" font-family="monospace" font-size="50" fill="#9BCB00">{>}</text>
+</svg>

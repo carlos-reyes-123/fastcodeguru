@@ -24,6 +24,8 @@ tags        = [
 
 > Branching is slow, so replace `&&` with `&` (or `||` with `|`) and the optimizer will thank you.
 
+![C++ bit-twiddling if and or](./bitwise-vs-logical-and.png)
+
 That advice shows up in code reviews, on Reddit threads, and even in seasoned code bases. The intuition is simple:
 
 * `&&` *may* short-circuit, so the compiler must generate a conditional branch.

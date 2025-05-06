@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="200"
+   height="200"
+   viewBox="0 0 200 200"
+   version="1.1"
+   id="svg10"
+   sodipodi:docname="fastcodeguru-logo.svg"
+   inkscape:version="1.4.1 (93de688d07, 2025-03-30)"
+   inkscape:export-filename="fastcodeguru-logo-128x128.png"
+   inkscape:export-xdpi="61.439999"
+   inkscape:export-ydpi="61.439999"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs10" />
+  <sodipodi:namedview
+     id="namedview10"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="3.557631"
+     inkscape:cx="96.834101"
+     inkscape:cy="96.834101"
+     inkscape:window-width="1920"
+     inkscape:window-height="1008"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg10" />
+  <!-- Colors -->
+  <!-- Navy: #003C56 ; Lime: #9BCB00 -->
+  <!-- Microchip body -->
+  <rect
+     x="82.823227"
+     y="21.825249"
+     width="80"
+     height="80"
+     rx="10"
+     fill="#003c56"
+     id="rect1"
+     transform="rotate(10)" />
+  <!-- Pins (top) -->
+  <rect
+     x="102.82323"
+     y="1.8252491"
+     width="8"
+     height="20"
+     fill="#003c56"
+     id="rect2"
+     transform="rotate(10)" />
+  <rect
+     x="118.82323"
+     y="1.8252491"
+     width="8"
+     height="20"
+     fill="#003c56"
+     id="rect3"
+     transform="rotate(10)" />
+  <rect
+     x="134.82323"
+     y="1.8252491"
+     width="8"
+     height="20"
+     fill="#003c56"
+     id="rect4"
+     transform="rotate(10)" />
+  <!-- Pins (bottom) -->
+  <rect
+     x="102.82323"
+     y="101.82525"
+     width="8"
+     height="20"
+     fill="#003c56"
+     id="rect5"
+     transform="rotate(10)" />
+  <rect
+     x="118.82323"
+     y="101.82525"
+     width="8"
+     height="20"
+     fill="#003c56"
+     id="rect6"
+     transform="rotate(10)" />
+  <rect
+     x="134.82323"
+     y="101.82525"
+     width="8"
+     height="20"
+     fill="#003c56"
+     id="rect7"
+     transform="rotate(10)" />
+  <!-- Pins (left) -->
+  <!-- Top left pin -->
+  <rect
+     x="62.823227"
+     y="41.825249"
+     width="20"
+     height="8"
+     fill="#003c56"
+     id="rect8"
+     transform="rotate(10)" />
+  <!-- Middle left pin (longer for speed effect) -->
+  <rect
+     x="56.699566"
+     y="58.307709"
+     width="26.775"
+     height="8"
+     fill="#003c56"
+     id="rect9"
+     style="stroke-width:0.944722"
+     transform="rotate(10)" />
+  <!-- Bottom left pin -->
+  <rect
+     x="62.823227"
+     y="73.825249"
+     width="20"
+     height="8"
+     fill="#003c56"
+     id="rect10"
+     transform="rotate(10)" />
+  <!-- Code symbol -->
+  <text
+     x="122.82328"
+     y="75.725243"
+     text-anchor="middle"
+     font-family="monospace"
+     font-size="50px"
+     fill="#9bcb00"
+     id="text10"
+     style="letter-spacing:-3.5px"
+     transform="rotate(10)"><tspan
+       style="letter-spacing:-3.5px;fill:#c6e600;fill-opacity:1"
+       id="tspan1">{&gt;}</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-weight:bold;font-size:24px;line-height:1.25;font-family:Inter, sans-serif;-inkscape-font-specification:'Inter, sans-serif, Bold'"
+     x="11.823959"
+     y="171.20323"
+     id="text2"><tspan
+       sodipodi:role="line"
+       id="tspan2"
+       x="11.823959"
+       y="171.20323"><tspan
+         style="fill:#003c56;fill-opacity:1"
+         id="tspan4">FastCode.</tspan><tspan
+         style="font-size:24px;fill:#c6e600;fill-opacity:1"
+         id="tspan3">Guru</tspan></tspan></text>
+</svg>
