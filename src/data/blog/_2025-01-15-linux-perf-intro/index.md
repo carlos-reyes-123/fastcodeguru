@@ -20,6 +20,8 @@ tags        = [
 
 ![Linux Perf](./linux-perf.png)
 
+## Table of Contents
+
 ## What **perf** is
 `perf` is the user-space front-end to the Linux **perf_event** subsystem (the `perf_event_open(2)` syscall).
 It offers a uniform command-line interface to **hardware Performance-Monitoring Units (PMU), kernel trace-points, software counters, kprobes/uprobes, and eBPF** events, hiding the architectural quirks of each CPU family. It ships in the kernel tree (tools/perf) and is packaged by most distributions as *linux-tools-$(uname -r)*.[^perf]

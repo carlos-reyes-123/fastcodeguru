@@ -25,6 +25,8 @@ tags        = [
 
 ---
 
+## Table of Contents
+
 ## Why another C++ performance blog?
 
 > *The field is crowded with excellent but siloed voices… nobody is consistently marrying real-world C++ performance work with clear, story-driven writing and real-world examples.*

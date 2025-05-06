@@ -20,6 +20,9 @@ tags        = [
 
 ---
 
+## Table of Contents
+
+
 ## The folklore
 
 > Branching is slow, so replace `&&` with `&` (or `||` with `|`) and the optimizer will thank you.

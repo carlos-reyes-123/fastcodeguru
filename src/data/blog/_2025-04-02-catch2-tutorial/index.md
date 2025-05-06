@@ -21,6 +21,10 @@ tags        = [
 
 ![Catch2 unit testing](./catch2-tutorial.png)
 
+## Table of Contents
+
+## Introduction
+
 Modern C++ development moves quickly. Templates, ranges, coroutines, modules, heterogeneous builds, and automatic CI pipelines mean that your test framework has to keep up without dragging compile times or alienating newcomers. Catch2 v3 is one of the leanest ways to stay in control of quality and performance. In this tutorial we will
 
 * integrate Catch2 v3 with CMake (and FetchContent/CPM);

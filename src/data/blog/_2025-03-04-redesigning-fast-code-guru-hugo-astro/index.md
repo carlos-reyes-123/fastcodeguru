@@ -23,6 +23,10 @@ tags        = [
 
 ![Redesigning FastCode.Guru](./redesigning-fast-code-guru-hugo-astro.png)
 
+## Table of Contents
+
+## Introduction
+
 Building a high-performance C++ blog like FastCode.Guru demands a website that mirrors those same values of speed and quality. The original FastCode.Guru site[^old-article] was built with Hugo[^old-repo], a popular static site generator chosen for its blazing-fast builds and straightforward Markdown workflow. Over time, however, various pain points emerged – from theme maintenance headaches to limited flexibility – prompting a complete redesign of the site using Astro, a modern static site framework.[^new-repo] In this post, I’ll dive into why I moved from Hugo[^hugo] to Astro[^astro], compare the two platforms in terms of developer experience and performance, highlight Astro’s standout features (like partial hydration), review the AstroPaper[^astro-paper] theme I adopted, share some configuration snippets, and discuss our deployment on Cloudflare Pages. I’ll also touch on SEO[^seo] and Lighthouse[^lighthouse] performance results, and wrap up with the benefits I’ve already observed since the migration.
 
 [^old-repo]: [https://github.com/carlos-reyes-123/fastcodeguru-hugo](https://github.com/carlos-reyes-123/fastcodeguru-hugo)
