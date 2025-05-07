@@ -8,9 +8,16 @@ ogImage     = "./c++-range-for-loops.png"
 pubDatetime = 2025-01-03T16:00:00Z
 author      = "Carlos Reyes"
 tags        = [
-    "some",
-    "example",
-    "tags",
+    "C++",
+    "Performance",
+    "Modern C++",
+    "Range-Based For Loop",
+    "C++11",
+    "C++23",
+    "Best Practices",
+    "Optimization",
+    "Game Development",
+    "Systems Programming",
 ]
 +++
 
