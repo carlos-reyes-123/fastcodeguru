@@ -1,12 +1,12 @@
 +++
 draft       = false
+featured    = true
 title       = "Practical Profiling with perf on Linux"
 slug        = "practical-profiling-perf-linux"
 description = "`perf` is the user-space front-end to the Linux perf_event subsystem."
 ogImage     = "./linux-perf-tux.png"
 author      = "Carlos Reyes"
 pubDatetime = 2025-01-15T16:00:00Z
-featured    = false
 tags        = [
     "beginner",
     "counters",

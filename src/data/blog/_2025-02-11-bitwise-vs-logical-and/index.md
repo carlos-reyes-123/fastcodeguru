@@ -1,6 +1,6 @@
 +++
 draft       = false
-featured    = false
+featured    = true
 title       = "Bit-twiddling vs. Logic in Modern C++"
 slug        = "bit-twiddling-logic-modern-c++"
 description = "Why `if (a & b)` is not a free lunch."
