@@ -2,7 +2,7 @@
 draft       = false
 featured    = false
 title       = "Solving the C++ Class Hash Problem"
-slug        = "the-title-of-the-post"
+slug        = "c++-class-hash"
 description = "This is the example description of the example post."
 ogImage     = "./c++-class-hash.png"
 pubDatetime = 2025-03-12T16:00:00Z
