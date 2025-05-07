@@ -5,6 +5,8 @@ author      = "Carlos Reyes"
 layout      = "../layouts/PageLayout.astro"
 +++
 
+![Carlos Reyes](/carlos-reyes.png "Carlos Reyes")
+
 Welcome! I’m **Carlos Reyes**—software engineer, performance sleuth, and lifelong aviation geek.
 This site is where I distill four decades of hands-on programming into clear, reproducible advice on writing *fast, correct, and maintainable* code.
 
