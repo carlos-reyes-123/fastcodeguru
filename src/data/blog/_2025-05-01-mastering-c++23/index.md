@@ -2,7 +2,7 @@
 draft       = false
 featured    = false
 title       = "Mastering C++23: The Future of Performance-Critical Programming"
-slug        = "mastering-C++23"
+slug        = "mastering-c++23"
 description = "With the official ratification of C++23, I've spent the last couple of years exploring what this standard brings to the table for developers like us who care deeply about squeezing every ounce of performance from our code while maintaining readability and safety."
 ogImage     = "./mastering-c++23.png"
 pubDatetime = 2025-05-01T16:00:00Z
