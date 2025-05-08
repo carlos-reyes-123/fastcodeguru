@@ -162,7 +162,7 @@ So for **direct-list-initialization** (`Universal u{};`):
 1. Both `(1)` and `(2)` are viable.
 2. The compiler prefers the non-template `Universal()` over the templated one.
 
-Voila!
+We need the default constructor, since it is used to initialize the default argument to the copy/move constructor. Omitting it is an error, since doing so implies the copy/move constructor would have to call itself.
 
 ---
 
