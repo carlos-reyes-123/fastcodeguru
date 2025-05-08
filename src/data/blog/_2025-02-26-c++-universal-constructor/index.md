@@ -153,6 +153,17 @@ explicit Universal(U&& other = {}) noexcept(/*…*/)
 }
 ```
 
+When you write Universal{}, both constructors are viable (one takes 0 args, the other takes 1 with a default). But per the [overload resolution rules](https://en.cppreference.com/w/cpp/language/overload_resolution#Ranking_of_overload_candidates):
+
+> **Given two viable function overloads, if one is a non-template function and the other is a function template specialization, the non-template is considered more specialized and is chosen.**
+
+So for **direct-list-initialization** (`Universal u{};`):
+
+1. Both `(1)` and `(2)` are viable.
+2. The compiler prefers the non-template `Universal()` over the templated one.
+
+Voila!
+
 ---
 
 ## Why the default argument rocks (and slightly bites)
