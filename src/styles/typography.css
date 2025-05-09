@@ -25,6 +25,11 @@
     @apply hidden;
   }
 
+  /* Katex text color */
+  .prose .katex-display {
+    @apply text-foreground;
+  }
+
   /* ===== Code Blocks & Syntax Highlighting ===== */
   pre:has(code) {
     @apply border border-border;
