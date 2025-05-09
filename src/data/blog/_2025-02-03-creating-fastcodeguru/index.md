@@ -84,7 +84,7 @@ Total monthly bill so far: **$0.00** (renewal will jump to $39/year—but still 
 
 > Hugo 0.147 (released 25 Apr 2025) continues the cadence of weekly micro-optimisations, landing a new `aligny` shortcode without regressing build time.[^hugo]
 
-[^hugo]: [Hugo 0.147.0 released - Announcements](https://discourse.gohugo.io/t/hugo-0-147-0-released/54517?utm_source=chatgpt.com)
+[^hugo]: [Hugo 0.147.0 released - Announcements](https://discourse.gohugo.io/t/hugo-0-147-0-released/54517)
 
 ### Developer-experience
 

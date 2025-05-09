@@ -204,7 +204,7 @@ SCENARIO("Bank account transfers") {
 
 `SCENARIO`, `GIVEN`, `WHEN`, `THEN`, and `AND_*` are thin aliases that expand to `TEST_CASE`/`SECTION` while decorating the names.[^catch2-tut] They cost nothing at run-time and make reports easier to scan.
 
-[^catch2-tut]: [Catch2/docs/tutorial.md at devel - GitHub](https://github.com/catchorg/catch2/blob/devel/docs/tutorial.md?utm_source=chatgpt.com)
+[^catch2-tut]: [Catch2/docs/tutorial.md at devel - GitHub](https://github.com/catchorg/catch2/blob/devel/docs/tutorial.md)
 
 ---
 
