@@ -10,14 +10,24 @@ author      = "Carlos Reyes"
 tags        = [
     "C++23",
     "Modern C++",
-    "C++ Standard Library",
-    "Compile-Time Programming",
-    "Error Handling",
     "Performance Optimization",
+    "Compile Time Programming",
     "Coroutines",
     "Template Metaprogramming",
-    "Cross-Platform Development",
-    "Game and Systems Programming",
+    "Cross Platform Development",
+    "Game Development",
+    "Systems Programming",
+    "Financial Systems",
+    "Error Handling",
+    "std::expected",
+    "std::generator",
+    "std::flat_map",
+    "Multidimensional Subscript",
+    "Lazy Evaluation",
+    "Memory Safety",
+    "Standard Library Enhancements",
+    "High Performance Code",
+    "Deep Dive Tutorial",
 ]
 +++
 
@@ -27,7 +37,7 @@ tags        = [
 
 ---
 
-# Mastering C++23: The Future of Performance-Critical Programming
+## Introduction
 
 As someone who's been writing performance-critical code for years, I've always had a complicated relationship with C++. It's both the most powerful tool in my arsenal and occasionally the source of my biggest headaches. With the official ratification of C++23, I've spent the last couple of years exploring what this standard brings to the table for developers like us who care deeply about squeezing every ounce of performance from our code while maintaining readability and safety.
 

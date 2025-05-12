@@ -8,13 +8,26 @@ ogImage     = "./linux-perf-tux.png"
 author      = "Carlos Reyes"
 pubDatetime = 2025-01-15T16:00:00Z
 tags        = [
-    "beginner",
-    "counters",
-    "linux",
-    "perf",
-    "performance",
-    "pmc",
-    "profiling",
+    "Linux Profiling",
+    "Linux perf",
+    "perf_event Subsystem",
+    "Hardware Performance Counters",
+    "Call Graph Sampling",
+    "Frame Pointer Unwinding",
+    "Last Branch Records",
+    "BPF Tracing",
+    "Cache Miss Profiling",
+    "Branch Misprediction Analysis",
+    "FlameGraph Generation",
+    "Speedscope Visualization",
+    "CPU Affinity Profiling",
+    "NUMA Memory Profiling",
+    "False Sharing Detection",
+    "Systems Programming",
+    "Performance Engineering",
+    "Profiling Tutorial",
+    "Benchmarking Tools",
+    "Deep Dive",
 ]
 +++
 
@@ -22,13 +35,17 @@ tags        = [
 
 ## Table of Contents
 
+---
+
 ## What **perf** is
+
 `perf` is the user-space front-end to the Linux **perf_event** subsystem (the `perf_event_open(2)` syscall).
 It offers a uniform command-line interface to **hardware Performance-Monitoring Units (PMU), kernel trace-points, software counters, kprobes/uprobes, and eBPF** events, hiding the architectural quirks of each CPU family. It ships in the kernel tree (tools/perf) and is packaged by most distributions as *linux-tools-$(uname -r)*.[^perf]
 
 [^perf]: [Introduction - perf: Linux profiling with performance counters](https://perfwiki.github.io/main/tutorial/)
 
 ## Why you might care
+
 *   **Pinpoint hot spots** — attribute CPU cycles, stalled slots, cache-misses or branch mis-predictions to lines of code without recompiling.
 *   **Measure whole-system behaviour** — sample across all tasks (`-a`) or within cgroups, profile kernels, containers and virtual machines (`perf kvm`).
 *   **Low overhead, production-safe** — sampling incurs < 1–5 % overhead at typical frequencies.
@@ -38,6 +55,7 @@ It offers a uniform command-line interface to **hardware Performance-Monitoring 
 [^gregg]: [Linux perf Examples - Brendan Gregg](https://www.brendangregg.com/perf.html)
 
 ## Mental model
+
 | Concept | What it means | Example flags |
 |---------|---------------|---------------|
 | **Event** | Thing you count or sample | `-e cycles`, `-e mem-loads,mem-stores` |

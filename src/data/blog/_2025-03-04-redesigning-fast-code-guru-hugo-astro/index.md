@@ -10,20 +10,32 @@ author      = "Carlos Reyes"
 tags        = [
     "Astro",
     "AstroPaper",
-    "blog",
-    "C++",
     "Cloudflare Pages",
-    "Hugo",
-    "markdown",
-    "static site generator",
-    "theme",
-    "web performance",
+    "Static Site Generator",
+    "Partial Hydration",
+    "Islands Architecture",
+    "Markdown Content",
+    "Tailwind CSS",
+    "Fuse.js Search",
+    "SEO Optimization",
+    "Lighthouse Scores",
+    "Web Performance",
+    "Content Collections",
+    "TypeScript Support",
+    "Accessibility Best Practices",
+    "GitHub Integration",
+    "Component-Based Development",
+    "Site Migration Strategy",
+    "Modern Frontend Frameworks",
+    "High-Performance Blogging",
 ]
 +++
 
 ![Redesigning FastCode.Guru](./redesigning-fast-code-guru-hugo-astro.png "Redesigning FastCode.Guru")
 
 ## Table of Contents
+
+---
 
 ## Introduction
 

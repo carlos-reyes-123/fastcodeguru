@@ -8,26 +8,38 @@ ogImage     = "./bitwise-vs-logical-and-or.png"
 pubDatetime = 2025-02-11T16:00:00Z
 author      = "Carlos Reyes"
 tags        = [
-        "beginner",
-        "C++",
-        "performance",
-        "programming",
-        "syntax",
+        "C++23",
+        "Modern C++",
+        "Bitwise Operators",
+        "Logical Operators",
+        "Branch Prediction",
+        "Instruction Level Parallelism",
+        "Cache Efficiency",
+        "Short Circuit Evaluation",
+        "Boolean Semantics",
+        "Compiler Optimization",
+        "Side Effects Management",
+        "Concurrency Safety",
+        "std::atomic",
+        "SIMD Programming",
+        "GPU Kernel Optimization",
+        "Microbenchmarking",
+        "Code Readability",
+        "Performance Tradeoffs",
+        "Systems Programming",
+        "Deep Dive",
 ]
 +++
 
-**Why `if (a & b)` is *not* a free lunch**
-
----
+![Bit-twiddling vs. Logic in Modern C++](./bitwise-vs-logical-and-or.png "Bit-twiddling vs. Logic in Modern C++")
 
 ## Table of Contents
 
+---
 
 ## The folklore
 
 > Branching is slow, so replace `&&` with `&` (or `||` with `|`) and the optimizer will thank you.
-
-![C++ bit-twiddling if and or](./bitwise-vs-logical-and-or.png "C++ bit-twiddling if and or")
 
 That advice shows up in code reviews, on Reddit threads, and even in seasoned code bases. The intuition is simple:
 

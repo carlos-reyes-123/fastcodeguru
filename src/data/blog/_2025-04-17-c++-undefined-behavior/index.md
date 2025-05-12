@@ -12,12 +12,22 @@ tags        = [
     "Undefined Behavior",
     "Memory Safety",
     "Compiler Optimizations",
-    "Sanitizers",
     "Static Analysis",
-    "Debugging",
-    "Best Practices",
-    "Performance",
-    "Portability",
+    "Sanitizers",
+    "Runtime Debugging",
+    "Cross Platform Development",
+    "Signed Integer Overflow",
+    "Memory Access Violations",
+    "Use After Free",
+    "Concurrency Issues",
+    "Strict Aliasing",
+    "Modern C++ Best Practices",
+    "Resource Management",
+    "Portability Concerns",
+    "Formal Verification",
+    "Deep Dive Tutorial",
+    "Systems Programming",
+    "Software Reliability",
 ]
 +++
 
@@ -26,6 +36,8 @@ tags        = [
 ## Table of Contents
 
 ---
+
+## Introduction
 
 As a C++ developer with decades of experience, I've battled my fair share of mysterious crashes, inexplicable performance issues, and code that works perfectly on my machine but fails spectacularly in production. More often than not, these problems had one common culprit: undefined behavior.
 

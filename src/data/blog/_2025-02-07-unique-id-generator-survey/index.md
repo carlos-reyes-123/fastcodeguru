@@ -8,16 +8,26 @@ ogImage     = "./unique-id-generator-survey.png"
 pubDatetime = 2025-02-07T16:00:00Z
 author      = "Carlos Reyes"
 tags        = [
-    "UUID",
+    "Unique Identifiers",
+    "UUID v4",
+    "UUID v7",
     "ULID",
     "NanoID",
+    "MongoDB ObjectId",
     "KSUID",
     "TSID",
-    "Snowflake",
-    "ObjectId",
-    "unique identifiers",
-    "distributed systems",
-    "sortable IDs",
+    "Snowflake ID",
+    "Pseudo Random Generators",
+    "Timestamp Embedding",
+    "Sortable Identifiers",
+    "Collision Resistance",
+    "Distributed Systems",
+    "High Throughput Systems",
+    "Database Indexing",
+    "URL Friendly IDs",
+    "Lexicographic Ordering",
+    "Human Readable IDs",
+    "Technical Comparison Study",
 ]
 +++
 

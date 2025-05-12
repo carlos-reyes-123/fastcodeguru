@@ -9,15 +9,25 @@ pubDatetime = 2025-04-08T16:00:00Z
 author      = "Carlos Reyes"
 tags        = [
     "C++",
-    "Beginner Programming",
-    "C++ Learning Resources",
-    "C++ Curriculum",
     "Modern C++",
-    "C++ Tools",
+    "Beginner Programming",
+    "C++ Curriculum",
     "Memory Management",
-    "Object-Oriented Programming",
-    "C++ Standard Library",
-    "Game and Systems Programming",
+    "Object Oriented Programming",
+    "Template Programming",
+    "Standard Library Usage",
+    "Smart Pointers",
+    "Move Semantics",
+    "Systems Programming",
+    "Game Development",
+    "Financial Systems Development",
+    "Embedded Systems Programming",
+    "Compiler Toolchains",
+    "CMake Build System",
+    "Software Debugging",
+    "Cross Platform Development",
+    "Deep Dive Tutorial",
+    "Programming Education",
 ]
 +++
 
@@ -26,6 +36,8 @@ tags        = [
 ## Table of Contents
 
 ---
+
+## Introduction
 
 As a C++ developer with years of experience across game development, financial systems, and low-level programming, I've witnessed firsthand how this powerful language continues to be relevant despite being over four decades old. In this guide, I'll walk you through starting your C++ journey from scratch, with a focus on free resources, practical learning paths, and the tools that will make your experience smoother.
 

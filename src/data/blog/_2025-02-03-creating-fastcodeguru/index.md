@@ -8,14 +8,26 @@ ogImage     = "./creating-fastcodeguru.png"
 pubDatetime = 2025-02-03T16:00:00Z
 author      = "Carlos Reyes"
 tags        = [
-    "beginner",
-    "blog",
-    "go",
-    "howto",
-    "hugo",
-    "markdown",
-    "performance",
-    "text",
+    "Static Site Generators",
+    "Hugo",
+    "Cloudflare Pages",
+    "Edge Hosting",
+    "Jamstack Architecture",
+    "Markdown Content Workflow",
+    "GitHub Integration",
+    "Performance Optimization",
+    "Build Time Optimization",
+    "Instant Page Preloading",
+    "WebP and AVIF Images",
+    "Go Templates",
+    "Site Accessibility",
+    "SEO Optimization",
+    "Content Delivery Networks",
+    "Systems Programming",
+    "Cost Optimization",
+    "Website Deployment Workflow",
+    "Developer Experience",
+    "Deep Dive",
 ]
 +++
 
@@ -23,9 +35,9 @@ tags        = [
 
 ![FastCode.Guru website](./creating-fastcodeguru.png)
 
----
-
 ## Table of Contents
+
+---
 
 ## Why another C++ performance blog?
 

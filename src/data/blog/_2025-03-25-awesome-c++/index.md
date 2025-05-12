@@ -8,16 +8,26 @@ ogImage     = "./awesome-c++.png"
 pubDatetime = 2025-03-25T16:00:00Z
 author      = "Carlos Reyes"
 tags        = [
-    "C++ Resources",
     "Modern C++",
-    "High Performance Computing",
+    "C++ Resources",
     "C++ Libraries",
     "C++ Frameworks",
+    "High Performance Computing",
     "C++ Game Development",
     "Systems Programming",
-    "C++ Tooling",
-    "C++ Education",
+    "C++ Networking",
+    "Cross-Platform Development",
+    "Asynchronous Programming",
+    "Entity Component System",
+    "Database Access Libraries",
+    "Build Systems",
+    "C++ Testing Frameworks",
+    "Compiler Toolchains",
+    "Debugging Tools",
     "Open Source C++",
+    "C++ Education",
+    "C++ Conferences",
+    "Deep Dive Guide",
 ]
 +++
 

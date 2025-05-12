@@ -8,16 +8,26 @@ ogImage     = "./c++-iterator-invalidation.png"
 pubDatetime = 2025-02-19T16:00:00Z
 author      = "Carlos Reyes"
 tags        = [
-    "C++",
-    "Iterator Invalidation",
-    "Containers",
-    "Undefined Behavior",
     "C++23",
-    "Performance",
+    "Iterator Invalidation",
+    "Undefined Behavior",
     "Memory Safety",
-    "Ranges",
+    "Container Operations",
+    "Vector Reallocation",
+    "Range-Based Programming",
+    "std::vector",
+    "std::list",
+    "std::deque",
+    "std::map",
+    "std::unordered_map",
     "Game Development",
-    "Best Practices",
+    "Financial Systems",
+    "Systems Programming",
+    "Performance Best Practices",
+    "Data Structure Tradeoffs",
+    "Reserve Pattern",
+    "Erase Remove Idiom",
+    "Deep Dive",
 ]
 +++
 

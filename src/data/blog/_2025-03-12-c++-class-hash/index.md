@@ -9,15 +9,25 @@ pubDatetime = 2025-03-12T16:00:00Z
 author      = "Carlos Reyes"
 tags        = [
     "C++23",
-    "std::hash",
-    "custom-hash",
-    "hash_combine",
-    "fold-expressions",
-    "unordered_map",
-    "performance-optimization",
-    "exception-safety",
-    "portability",
-    "template-metaprogramming",
+    "Custom Hash Functions",
+    "std::hash Specialization",
+    "hash_combine Technique",
+    "Fold Expressions",
+    "Unordered Map Keys",
+    "Performance Optimization",
+    "Exception Safety",
+    "Portability Considerations",
+    "Template Metaprogramming",
+    "Boost PFR",
+    "Compile-Time Reflection",
+    "Secure Hashing",
+    "Game Development",
+    "Financial Systems",
+    "Systems Programming",
+    "Hash-Based Data Structures",
+    "Cross-Platform C++",
+    "Memory Layout Safety",
+    "Deep Dive Tutorial",
 ]
 +++
 
@@ -26,6 +36,8 @@ tags        = [
 ## Table of Contents
 
 ---
+
+## Introduction
 
 I recently ran into a deceptively simple problem while building a high-performance hash table for my in-memory game-state cache: my custom `Entity` class couldn’t be used as a key in `std::unordered_map` because there was no `std::hash<Entity>` defined. It struck me that this “missing class hash” issue is far more common than people realize—and worth a deeper dive. In this article I’ll explain:
 

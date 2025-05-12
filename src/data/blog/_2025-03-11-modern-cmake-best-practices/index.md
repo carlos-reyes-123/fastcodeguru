@@ -9,15 +9,25 @@ pubDatetime = 2025-03-11T16:00:00Z
 author      = "Carlos Reyes"
 tags        = [
     "C++",
-    "CMake",
-    "Build Systems",
-    "Cross-Platform",
-    "Ninja",
+    "Modern CMake",
+    "Target-Based CMake",
+    "CMake FetchContent",
+    "Cross-Platform Builds",
+    "Ninja Build System",
+    "Parallel Compilation",
+    "Unity Builds",
+    "Precompiled Headers",
     "Dependency Management",
-    "Performance Optimization",
-    "Software Architecture",
-    "Modern C++",
-    "Developer Tools",
+    "Conan Package Manager",
+    "vcpkg Package Manager",
+    "Compiler Optimizations",
+    "Systems Programming",
+    "Financial Systems",
+    "Game Development",
+    "Embedded Systems",
+    "Build Performance",
+    "Portable Build Scripts",
+    "Deep Dive Tutorial",
 ]
 +++
 

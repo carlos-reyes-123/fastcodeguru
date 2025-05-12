@@ -9,15 +9,25 @@ pubDatetime = 2025-01-08T16:00:00Z
 author      = "Carlos Reyes"
 tags        = [
     "C++23",
+    "C++20",
     "Standard Algorithms",
     "Ranges Library",
-    "Modern C++",
-    "Algorithm Idioms",
-    "Performance Optimization",
+    "Pipeline Composition",
+    "Erase Remove Idiom",
+    "Transform Idiom",
+    "Filter Map Reduce",
+    "Zip Views",
+    "Adjacent Views",
+    "Fold Left Operation",
+    "Projection Techniques",
+    "View Lifetime Issues",
+    "Lazy Evaluation",
     "Functional Programming",
     "Game Development",
     "Financial Systems",
     "Systems Programming",
+    "Performance Optimization",
+    "Deep Dive",
 ]
 +++
 

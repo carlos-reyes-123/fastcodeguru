@@ -8,16 +8,26 @@ ogImage     = "./c++-range-for-loops.png"
 pubDatetime = 2025-01-03T16:00:00Z
 author      = "Carlos Reyes"
 tags        = [
-    "C++",
-    "Performance",
-    "Modern C++",
-    "Range-Based For Loop",
-    "C++11",
     "C++23",
-    "Best Practices",
-    "Optimization",
+    "C++11",
+    "Range-Based For Loops",
+    "Universal References",
+    "Move Semantics",
+    "Copy Elision",
+    "Data Conversion Pitfalls",
+    "Proxy References",
+    "std::vector<bool>",
+    "Loop Optimization",
     "Game Development",
+    "Financial Systems",
     "Systems Programming",
+    "Compiler Portability",
+    "Embedded Systems",
+    "Performance Benchmarking",
+    "Cache Efficiency",
+    "Modern C++ Best Practices",
+    "Deep Dive",
+    "Code Quality",
 ]
 +++
 
@@ -26,6 +36,8 @@ tags        = [
 ## Table of Contents
 
 ---
+
+## Introduction
 
 As a performance-focused C++ developer, I've spent countless hours optimizing code, and I've found that small changes in loop constructs can have a surprisingly large impact on program efficiency. Range-based for loops, introduced in C++11, are one of my favorite features for writing cleaner, more maintainable code. However, there are nuances to using them optimally that many developers miss.
 

@@ -8,20 +8,38 @@ ogImage     = "./catch2-tutorial-kids.png"
 author      = "Carlos Reyes"
 pubDatetime = 2025-04-02T16:00:00Z
 tags        = [
-    "benchmarking",
-    "C++",
-    "catch2",
-    "testing",
+    "C++23",
+    "Catch2",
+    "Unit Testing",
+    "Benchmarking",
+    "Property Based Testing",
+    "BDD Style Tests",
+    "Micro Benchmarking",
+    "CMake Integration",
+    "CTest Automation",
+    "Test Discovery",
+    "Freestanding C++",
+    "Header Only Libraries",
+    "Performance Optimization",
+    "Modular Build Systems",
+    "Static Analysis Friendly",
+    "Continuous Integration",
+    "Cross Platform Testing",
+    "Software Quality Assurance",
+    "Deep Dive Tutorial",
+    "High Performance C++",
 ]
 +++
-
-> *Unit tests are the double-entry bookkeeping of software engineering: they cost something, but you discover errors while they are still inexpensive.*
-
-— Paraphrasing Martin Fowler
 
 ![Catch2 unit testing](./catch2-tutorial-kids.png "Catch2 unit testing")
 
 ## Table of Contents
+
+---
+
+> *Unit tests are the double-entry bookkeeping of software engineering: they cost something, but you discover errors while they are still inexpensive.*
+
+— Paraphrasing Martin Fowler
 
 ## Introduction
 

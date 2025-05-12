@@ -10,14 +10,24 @@ author      = "Carlos Reyes"
 tags        = [
     "C++23",
     "Modern C++",
-    "Performance",
     "Clean Code",
-    "Bug-Free",
+    "High Performance C++",
     "std::expected",
-    "Modules",
-    "Coroutines",
-    "Ranges",
-    "constexpr",
+    "C++ Modules",
+    "C++ Coroutines",
+    "C++ Ranges",
+    "Constexpr Computation",
+    "std::span",
+    "std::mdspan",
+    "String Utility Functions",
+    "Compile Time Programming",
+    "Bug Prevention Techniques",
+    "Resource Management",
+    "Game Development",
+    "Financial Systems",
+    "Systems Programming",
+    "Performance Best Practices",
+    "Deep Dive",
 ]
 +++
 
@@ -27,9 +37,11 @@ tags        = [
 
 ---
 
+## Introduction
+
 Like many of you, I've been on a long journey with C++. From the early days of C++98 to the modern era of C++23, I've watched this language evolve into a powerful tool that can deliver both performance and expressiveness. Today, I want to share my insights on how to leverage C++23 features to write code that's not only fast but also clean and reliable.
 
-## Introduction: The C++23 Revolution
+## The C++23 Revolution
 
 C++23 builds on the modern C++ philosophy that began with C++11, bringing us even more tools to write expressive, efficient, and safe code. As someone who's worked across game development, financial systems, and low-level infrastructure, I've found that these new features aren't just academic curiosities—they solve real problems.
 
