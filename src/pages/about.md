@@ -22,6 +22,14 @@ This site is where I distill four decades of hands-on programming into clear, re
 
 ---
 
+## Tutoring & Mentorship
+
+Beyond consulting and writing, I actively teach. With over 1,000 one-on-one sessions and counting, I mentor a diverse range of students—from middle and high schoolers building their first apps, to college students tackling data structures, to career changers and working engineers leveling up in modern C++, Python, algorithms, and AI-assisted coding.
+
+My approach is hands-on and project-first: we learn by building. If you're looking for personalized guidance, check out my [Tutoring & Mentorship page](/tutoring) to see how we can work together and book a free 15-minute introductory call.
+
+---
+
 ## What You’ll Find Here
 
 | Content type | Typical depth | Why it matters |
@@ -61,7 +69,8 @@ Whether you just skimmed a paragraph or spent the weekend rewriting a hot path, 
 
 | Channel | Link | How to use it |
 |---------|---------------|---------------|
-| **Email** | [carlos@fastcode.guru](mailto:carlos@fastcode.guru) | fastest for detailed questions or consulting inquiries |
+| **Tutoring** | [Tutoring & Mentorship page](/tutoring) | free 15-minute introductory call |
+| **Email** | [carlos@fastcodeguru.org](mailto:carlos@fastcodeguru.org) | fastest for detailed questions or consulting inquiries |
 | **LinkedIn** | [linkedin.com/in/creyes123](https://www.linkedin.com/in/creyes123/) | connect with a short note so I know you’re coming from the blog |
 | **GitHub** | [github.com/carlos-reyes-123](https://github.com/carlos-reyes-123) | open an issue or pull request; code speaks louder than words |
 
