@@ -1,3 +1,5 @@
+Write a blog post about learning Godot GDScript for beginner and intermediate Python computer programmers. Discuss how they are similar and how they are different. Give lots of examples. Mention gotchas specific to GDScript. If possible and practical, include tips for getting good performance from GDScript.
+
 # -------------------------------------------------------------------
 Write a blog post article about AI-driven source code verification. The target programming language is Python. The goal is to discuss techniques to ensure AI-generated source code is correct. Discuss why this is so important. Briefly cover the theory, but focus on practical applications.
 
