@@ -1,6 +1,6 @@
 +++
 draft       = false
-featured    = true
+featured    = false
 title       = "What is C++? A Deep Dive into the Language That Powers Performance-Critical Software"
 slug        = "what-is-c++"
 description = "As a developer who has spent countless hours wrangling with compilers, debugging memory leaks, and optimizing hot paths, I've developed both a deep appreciation and healthy respect for C++."

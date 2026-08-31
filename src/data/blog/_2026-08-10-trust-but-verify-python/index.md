@@ -2,9 +2,9 @@
 draft       = false
 featured    = true
 title       = "Trust, But Verify: A Survival Guide for AI-Generated Python Code"
-slug        = "trut-but-verify"
+slug        = "trust-but-verify-python"
 description = "Welcome to 2026, where we can generate a thousand lines of Python in the time it takes to brew coffee, but we still can't guarantee it won't bankrupt us."
-ogImage     = "./trust-but-verify.webp"
+ogImage     = "./trust-but-verify-python.webp"
 pubDatetime = 2026-08-10T16:00:00Z
 author      = "Carlos Reyes"
 tags        = [
@@ -31,7 +31,7 @@ tags        = [
 ]
 +++
 
-![Trust, But Verify: A Survival Guide for AI-Generated Python Code](./trust-but-verify.webp "Trust, But Verify: A Survival Guide for AI-Generated Python Code")
+![Trust, But Verify: A Survival Guide for AI-Generated Python Code](./trust-but-verify-python.webp "Trust, But Verify: A Survival Guide for AI-Generated Python Code")
 
 ## Table of Contents
 
