@@ -1,0 +1,961 @@
+# -------------------------------------------------------------------
+Write a blog post article about AI-driven source code verification. The target programming language is Python. The goal is to discuss techniques to ensure AI-generated source code is correct. Discuss why this is so important. Briefly cover the theory, but focus on practical applications.
+
+# -------------------------------------------------------------------
+Write an article about a comprehensive set of canonical g++ command line arguments for both debugging and release scenarios. Targetting C++23. Explain the meaning of each option and mention reasonable alternatives. For debugging, mention drawbacks of using "-std=gnu++23" versus "-std=c++23". Mention that "-march" implies "-mtune". Explain why "-pthread" is almost always needed. Explain dangers with "-Ofast". Include link-time optimization for release mode. Include any other flags for both modes as appropriate.
+
+Good starting point for debugging: "-std=c++23 -Og -march=native -ggdb -fsanitize=address,undefined -pthread -Wall -Wextra -Wpedantic"
+
+Good starting point for release: "-std=c++23 -O3 -march=native -pthread -Wall -Wextra -Wpedantic"
+
+# -------------------------------------------------------------------
+Write an article about the modern C++ standard library method reserve(). Explain how it is a member of vector but also other containers like unordered_map and unordered_set. Explain why having noexcept move constructors on objects that will be stored in these containers can potentially make a big difference in performance. Give lots of examples and tips on usage.
+
+# -------------------------------------------------------------------
+Write an article about efficiently generating prime numbers. Use std::ranges
+
+# -------------------------------------------------------------------
+Write an article about interesting and useful design patterns for C++23. Explain what design patterns are and their value. Focus on practical design patterns. Have them build on C++23’s latest library and language additions to make code more expressive, safer, and often zero-overhead. Mention that they can be modified and combined as needed. Use this list of design patterns as a starting point:
+
+1. Range-Based Pipeline
+Problem: You have a sequence of transformations and filters and want to compose them cleanly.
+C++23 Feature: <ranges> (range adaptors and views)
+
+2. Lazy Generator (Coroutine)
+Problem: You need a lazily-evaluated sequence (e.g. Fibonacci) without materializing the whole container.
+C++23 Feature: Coroutines (co_yield)
+
+3. Fluent Builder with Designated Initializers
+Problem: You must construct complex objects step by step, with clear defaults.
+C++23 Feature: Designated initializers + Class template argument deduction (CTAD)
+
+4. Scoped Cleanup (Scope-Exit)
+Problem: Guarantee that a cleanup action runs on exit (even via exceptions).
+C++23 Feature: <scope> utilities (std::scope_exit)
+
+5. Compile-Time Policy Selection via Concepts
+Problem: You want to inject strategy/policy behavior at compile time without losing performance.
+C++23 Feature: Concepts + consteval + requires-clauses
+
+6. Monostate Singleton
+Problem: You need a globally-accessible state type but want to avoid raw globals.
+C++23 Feature: Inline variables
+
+7. Observer (Signals/Slots) with Type Erasure
+Problem: You want a lightweight publish/subscribe mechanism without hand-rolled vtables.
+C++23 Feature: std::function, explicit(object) lambdas, and deducing this
+
+8. Concurrency Barrier Coordinator
+Problem: You launch multiple worker threads and need to synchronize at various points.
+C++23 Feature: <barrier>
+
+# -------------------------------------------------------------------
+Write an article about "What is C++". Mention history from B, BCPL, and C. Mention how C++ came after Stroustrup invented "C with Classes". Explain how languages like Smalltalk (in its prime in the 1980s) influenced its object-orientation.
+
+At first, the focus was on getting C programmers to switch over. Mention how at first a major design goal was making C++ compilable to plain C. Then that goal went away. Then feature parity with Java became a goal. Now, competition with Rust is a major driving force. Competition benefits us all.
+
+Quip about how people used to complain about C++ compile times before Rust came along. Rust compile times are much longer, so people do not complain about C++ compile times any more.
+
+Memory errors continue to be a major source of runtime bugs. The language continues to add features to make then less likely to happen.
+
+A new release of C++ comes out every three years or so. At any one time, what a compiler supports is a mixture of a partial implementation of the last ratified release and a smattering of features from the next upcoming release.
+
+The evolution rate of C++ only seems to be accelerating. I believe the language has a bright future.
+
+# -------------------------------------------------------------------
+Write an article about effectively using large language models:
+
+1. **Hallucinations** - LLMs can generate plausible but incorrect information, necessitating verification of outputs.
+
+2. **Context window limitations** - Understanding the finite "memory" of LLMs and how to work within these constraints.
+
+3. **Prompt engineering** - The craft of designing effective prompts to elicit desired responses.
+
+4. **Chain-of-thought reasoning** - Encouraging step-by-step problem-solving to improve accuracy.
+
+5. **Retrieval-augmented generation (RAG)** - Combining LLMs with external knowledge sources for more reliable information.
+
+6. **Knowledge cutoffs** - Recognizing that LLMs have temporal limitations in their training data.
+
+7. **Temperature settings** - Controlling the creativity versus precision tradeoff in outputs.
+
+8. **Emergent abilities** - Capabilities that appear only at certain model scales.
+
+9. **Multi-modal capabilities** - The expanding ability to work with text, images, and other data types.
+
+10. **Fine-tuning** - Adapting general models to specific domains or tasks for improved performance.
+
+11. a tool, a force multiplier
+
+12. wisdom of the crowd
+
+13. a junior assistant
+
+14. trust, but verify
+
+# -------------------------------------------------------------------
+Write a comprehensive article about why functional programming is better. Mention why it is not new (Lisp). Talk about procedural and object-oriented and their problems. Mention why small pure functions without global dependencies are hard to beat for code quality. Mention how mainstream programming languages like Java and C++ have been moving to become more functional over time. Tips about thinking in a functional style.
+
+# -------------------------------------------------------------------
+Write an article about robust streaming statistics. Explain what they are and why they are important. Discuss the mean, quantiles, interquantile range, outliers, and Gaussian noise. Mention sketches like count-min and top-k (heavy hitters) computations. Cover core algorithmic techniques like Bloom filters. Include lots of links for more information about the algorithms. Include a discussion of Welford's online algorithm to compute the moments, including skewness and kurtosis. Add a mini library in C++23 at the end of the article demonstrating some of the more commonly used algorithms.
+
+# -------------------------------------------------------------------
+Write a comprehensive and expert-level article about smart pointers in C++23. Include shared_ptr, unique_ptr, and weak_ptr. Describe how they use atomics to update the counter but are not thread-safe when pointing to a new value. Should a smart pointer be passed to a function by reference? Describe pros and cons (mostly cons) of doing that. Talk about how shared_ptr is often a poor man's version of garbage collected memory. unique_ptr has great performance and is very safe - it should be used more often. weak_ptr is very specialized and is good for caches.
+
+# -------------------------------------------------------------------
+Write an article about common idioms with the C++23 standard algorithms library. For example, putting remove_if inside a call to erase. Give lots of short examples.
+
+Write an article about the performance trade-offs between maintaining data sorted as it is created and updated, versus keeping it unordered and adding a separate sort step at the end. From my experience, sorting at the end is usually faster.
+
+# -------------------------------------------------------------------
+Write a comprehensive article about the concept of C++23 iterator invalidation. Include all of the following information in the article:
+
+In C++, programs must assume that an iterator is invalid after certain operations, even if the specific iterator was not technically affected. If the container’s rules say "iterators may be invalidated by this operation," you must treat all potentially affected iterators as invalid. You cannot "test" an iterator for validity afterward. You cannot "trust" that it’s still valid just because it seems to work. Even if, by luck, the iterator still points to good memory, its usage is undefined behavior. You must always assume invalidation if the container's specification says so, even if in practice memory hasn't moved.
+
+Authoritative Wording from C++ Standard (ISO/IEC 14882:2020 §24.2.2 [container.requirements.general]):
+Unless otherwise specified, an insertion or deletion operation on a container invalidates all iterators and references to the container.
+
+Why is C++ designed this way? Because performance and predictability of rules are more important than runtime checking:
+
+Reason                        Explanation
+Zero-cost abstraction         If an operation might invalidate, you don't have to insert runtime checks — the burden is on the programmer.
+Simplicity of specification   The C++ Standard can state rules very simply: “all iterators are invalid after X” — no need for complicated exceptions.
+Efficiency                    Validating every iterator would destroy the speed advantages of C++ containers.
+Allows optimizations          The compiler and library implementors know that once invalidated, they don't have to preserve old iterator behavior.
+
+# -------------------------------------------------------------------
+Write an article about the design and implementation of a new family of unique id generators. Include an implementation in C++23. There are three generators, generating 32, 64, and 128 bit ids. All three use this 54 character alphabet: "2346789ABCDEFGHJKLMNPQRTUVWXYZabcdefghjkmnopqrstuvwxyz". The alphabet omits characters that are easily confused (0, O, 1, l, 5, S). The underscore ("_") is used to group the characters. This design allows double-clicking to select the entire id.
+
+The 32-bit id consists of an 8-bit machine id, used to avoid collisions in a networked application. The rest of the bits (32-8=24) are a random set of bits. When printed out, this id looks like this: "kw_xxxxxx_y", where "kw" is a magic sequence that never changes, "xxxxxx" is the 54-character alphabet encoded 32-bit value, and "y" is a 54-bit checksum of the value.
+
+The 64-bit id consists of a 32-bit timestamp accurate to one second, starting from January 1, 2025. Then an 8-bit value depicting the milliseconds, accurate to about 4 milliseconds. Then again an 8-bit machine id, followed finally by a 16-bit (64-32-8-8=16) random set of bits. When printed out, this id looks like this: "kd_xxxxxx_xxxxxx_yy", similar to the above. The checksum, "yy", now consists of two 54-value digits for an expanded range (54^2=2916).
+
+The 128-bit id consists of the same 32-bit timestamp accurate to one second, 8-bit millisecond counter, 8-bit machine id, followed by an 80-bit (128-32-8-8=80) random number. When printed out, this id looks like this: "kq_xxxxxx_xxxxxx_xxxxxx_xxxxx_yyyy", similar to the above. The checksum is now four 54-value digits.
+
+The magic sequence stands for "key word", "key double", and "key quad", respectively. Let's call these "wdqid", using their size prefixes to create the name. This organization of the ids allows easy alphanumeric sorting by creation timestamp. Note that the checksums are not stored as part of the number when encoded in binary. But they are required when in text form.
+
+Blake3 Hashed MAC (Message Authentication Code)
+128-bit MAC, 128-bit payload
+uses a secret key to encrypt
+to verify, encrypt again and compare result
+https://github.com/BLAKE3-team/BLAKE3/blob/master/c/blake3.c
+support binary and string inputs/outputs (hex for mac)
+
+# -------------------------------------------------------------------
+2346789ABCDEFGHJKLMNPQRTUVWXYZabcdefghjkmnopqrstuvwxyz
+
+this is a 54 character alphabet
+use underscore ("_") to group digits for display
+this alphabet supports double-clicking to select
+support 32-bit, 64-bit, and 128-bit codes
+include a checksum in the display configuration
+include a magic letter prefix in the display configuration
+
+Binary Size   Minimum Base-54 Characters Needed
+32 bits        6
+64 bits       12
+128 bits      23
+
+# -------------------------------------------------------------------
+std::string encode_base54(uint64_t value, const std::string& alphabet) {
+    std::string result;
+    if (value == 0) return std::string(1, alphabet[0]);
+    while (value > 0) {
+        uint64_t rem = value % 54;
+        result.insert(result.begin(), alphabet[rem]);
+        value /= 54;
+    }
+    return result;
+}
+
+# -------------------------------------------------------------------
+uint64_t decode_base54(const std::string& input, const std::string& alphabet) {
+    uint64_t result = 0;
+    for (char ch : input) {
+        size_t index = alphabet.find(ch);
+        if (index == std::string::npos)
+            throw std::invalid_argument("Invalid character in input");
+        result = result * 54 + index;
+    }
+    return result;
+}
+
+# -------------------------------------------------------------------
+Write a survey article about generators of pseudo-random, unique IDs. The goal is to have a large table summarizing their differences. Include lots of links in the article. Include at least UUID, ULID, NANOID, ObjectId, KSUID, TSID, and Snowflake. Include a discussion of their strengths and weaknesses. Make recommendations as to which to use in specific scenarios. Mention which ones have check digits in their text forms, magic IDs, and are sortable by timestamp. Mention usage of characters that are hard to type in or are easily confused.
+
+# -------------------------------------------------------------------
+https://www.reddit.com/r/webdev/comments/1khzg2l/uuid_vs_cuid2_do_you_ever_consider_how_smooth_an/
+
+# Ultimate Guide to Identifiers
+https://wookieb.pl/guide/identifiers
+https://www.reddit.com/r/node/comments/136rcf2/ive_created_long_guide_regard_modern_and_old/
+
+# The Wild World of Unique Identifiers (UUID, ULID, etc)
+https://medium.com/geekculture/the-wild-world-of-unique-identifiers-uuid-ulid-etc-17cfb2a38fce
+
+# Primary Keys
+https://bwiggs.com/notebook/pk/
+
+UUID Cuidv2 from https://github.com/paralleldrive/cuid2 zbase32
+
+Used to generate table primary keys. Can also be used to generate unique redemption codes. Similar to the problem of generating unique passwords.
+
+easy to select with double clicking
+easy to type in by hand
+low chance of collisions under all reasonable conditions
+easy to generate in multiple programming languages
+no O, 0, I, l, 5, S because they look too similar
+letter U can lead to accidental obscenity
+encode/decode time
+sortable by creation timestamp even while encoded
+CPU time to generate
+detection of corrupted data
+magic number or characters to identify the format (may only need this for text representation)
+is the encoding pronounceable
+
+With 32-bit precision at 1-second resolution, you can count up to about 136 years before overflowing.
+
+Talk about how sometimes they can generate actual unintended words, such as curse words. You might need to use a blacklist check if they are going to be customer visible. ("b00b135")
+
+UUID
+https://www.ietf.org/rfc/rfc4122.txt
+https://datatracker.ietf.org/doc/html/draft-peabody-dispatch-new-uuid-format#ref-LexicalUUID
+https://pubs.opengroup.org/onlinepubs/9696989899/chap5.htm#tagcjh_08_02_01_01
+
+# You don't need UUID
+https://henvic.dev/posts/uuid/
+https://news.ycombinator.com/item?id=37469857
+
+https://www.npmjs.com/package/short-uuid
+
+# NANOID
+https://zelark.github.io/nano-id-cc/
+https://github.com/ai/nanoid
+https://zelark.github.io/nano-id-cc/
+https://planetscale.com/blog/why-we-chose-nanoids-for-planetscales-api
+
+ULID - Universally Unique Lexicographically Sortable Identifier
+https://github.com/ulid/spec
+https://github.com/suyash/ulid
+
+MongoDB BSON ObjectId OID
+https://bsonspec.org/
+https://www.mongodb.com/docs/manual/reference/bson-types/
+
+Crockford base 32
+https://www.crockford.com/base32.html
+
+# Squids
+# generate short unique identifiers from numbers
+https://sqids.org/
+
+# Bubble Babble
+# uses alternation of consonants and vowels to encode binary data to pseudowords that can be pronounced more easily
+https://bohwaz.net/archives/web/Bubble_Babble.html
+
+# BIP39 Mnemonic Code Converter
+https://iancoleman.io/bip39/
+
+# mnemonic word list
+https://web.archive.org/web/20090918202746/http://tothink.com/mnemonic/wordlist.html
+
+# UUID (v4)/GUID Generator and lots more
+https://www.usefulids.com/
+
+# KSUID - K-Sortable Globally Unique IDs
+https://github.com/segmentio/ksuid
+
+# TSID - Time-Sorted Unique Identifiers (TSID) for TypeScript
+https://github.com/yubinTW/tsid-ts
+
+# Snowflake
+https://discord.com/developers/docs/reference#snowflakes
+https://github.com/twitter-archive/snowflake/tree/snowflake-2010
+
+# dxid - A better and safer way to display your primary keys in urls or in your app
+# adds a check digit to display format
+https://github.com/tttp/dxid
+
+# -------------------------------------------------------------------
+Write an article about generating good passwords. Show sample code in C++23. Make the random number generator be thread local to minimize the initialization cost. Explain that in the article.
+
+As an aside, mention that password are problematic from a security perspective. They get written down or forgotten. People also often use passwords that are easy to guess and they also reuse passwords.
+
+What are good sets of characters to use for generating passwords? It is good to include uppercase, lowercase, numbers, and symbols. Some letters and numbers can be confused with each other (O and 0, I and l). Which symbols can be easily entered using any international keyboard layout?
+
+Need to minimize the risk of accidentally generating foul language. Maybe omit all vowels? Maybe also omit all the high risk consonants (F, C, S, B, D, and K)?
+
+Reject any CVC pattern (Consonant-Vowel-Consonant), since it’s common for swear words?
+
+Use a dictionary to black list swear words? Probably overkill, easy to miss words, and would need updating.
+
+Discuss any other criteria for auto generating good passwords. What is a good length for a password? Minimum 8, 10 better?
+
+Even with the most restrictive dictionary, how many 10 character passwords can be generated?
+
+# -------------------------------------------------------------------
+Write a comprehensive article on the uses of the various iota functions in C++23. Give examples and provide tips on usage. Explain why the newer std::ranges::views::iota is more efficient. Also show clever uses for the functions.
+
+# -------------------------------------------------------------------
+Write a blog article about modern day CMake best practices. Mention how CMake has evolved over the years. Mention why it is still the best build tool. Mention Ninja and what it brings to the table. Talk about builds using multiple CPU cores. Tips for keeping CMakeLists.txt files organized. Talk about modern method to include third party dependencies. Include links to documentation and other modern CMake tutorials.
+
+# -------------------------------------------------------------------
+Create a blog post called "Awesome C++" full of links. Make sure the links are working. The links need to be to key information sources, preferably completely free resources. Focus on these categories:
+
+## Core Categories
+- **C++ Standard Library** - Links to documentation and tutorials for the standard library
+- **Frameworks** - Major C++ frameworks like Qt, Boost, POCO, etc.
+- **Game Engines** - C++ game engines like Unreal Engine, Godot, SFML
+- **GUI Libraries** - Libraries for creating graphical user interfaces
+- **Network Libraries** - Libraries for networking and communication
+- **Database Libraries** - Libraries for database connectivity and ORM
+
+## Development Tools
+- **Compilers** - GCC, Clang, MSVC, etc.
+- **Build Systems** - CMake, Meson, Bazel, etc.
+- **IDEs & Editors** - Visual Studio, CLion, VSCode with C++ extensions
+- **Debugging Tools** - GDB, LLDB, Visual Studio Debugger
+- **Package Managers** - Conan, vcpkg, etc.
+- **Testing Frameworks** - Catch2, Google Test, Doctest
+
+## Educational Resources
+- **Books** - Recommended reading for beginners and advanced users
+- **Courses** - Online courses and tutorials
+- **Blogs** - High-quality blogs about C++ development
+- **YouTube Channels** - Educational content creators focused on C++
+- **Conferences** - Major C++ conferences like CppCon, Meeting C++
+
+## Community Resources
+- **Forums** - Stack Overflow tags, Reddit communities, Discord servers
+- **Open Source Projects** - Notable open source C++ projects
+- **Coding Standards** - Links to C++ coding standards and style guides
+
+
+# -------------------------------------------------------------------
+Turn the above idea of a universal constructor into a blog article. Explain in detail how it works. Mention any caveats and shortcomings. Mention any scenarios, if any, where it might be a good idea to use one. Conclude that it is a neat exercise, but probably not recommended to use one.
+
+# -------------------------------------------------------------------
+Create an article about writing effective modern C++23. Make it all about writing clean, bug-free, and high performance code. Include lots of short code examples. Include lots of tips and modern-day best practices.
+
+# -------------------------------------------------------------------
+Write a comprehensive article about mastering C++23. The target audience is existing C++ computer programmers. Discuss and give short examples of the important new features of the language. Include links to other blogs and free websites that cover advanced C++ features. Not too interested in paid resources such as books or online courses. Prefer fully free resources as opposed to freemium.
+
+# -------------------------------------------------------------------
+Write a comprehensive article about learning C++. The target audience is beginning computer programmers not already familiar with C++. Explain a bit about the history of C++ and why learning it today is still worthwhile. Include lots of links to free online resources. Not too interested in paid resources such as books or online courses. Prefer fully free resources as opposed to freemium. Mention compilers (Clang, MSVC), Visual Studio Code IDE, and CMake build system. Describe a simple curriculum to follow, along with important milestones to meet. Mention key websites such as Godbolt and cppreference.
+
+# -------------------------------------------------------------------
+Write an article about the concept of undefined behavior in C++23. Give the C++ Standard definition. Explain why it may not cause compiler or even runtime errors. Explain why it is so dangerous. Give lots of examples of undefined behavior in the language. Give tips about avoiding these situations.
+
+# -------------------------------------------------------------------
+Write an article about the missing class hash and use code similar to the above as an example of a solution. Explain why this is a problem and why the standard library cannot just write the hash function. Explain why this solution is efficient.
+
+# -------------------------------------------------------------------
+The range for statement in C++23 needs to declare the loop variable. There are potential performance gotchas with unwanted data conversions. std::vector<bool> is always problematic. Explain why only using "for (const auto& x : xx)" for immutable values and "for (auto&& x : xx)" for mutable values is all that is needed and is also optimally efficient.
+
+# -------------------------------------------------------------------
+Write an article about how to write a correct copy constructor in C++23. Discuss universal references, const correctness, and exception safety. Explain why avoiding data copies in cases such as std::vector resizings is essential. Also, discuss the pros and cons of making the constructor exception-safe.
+
+Include an example with a noexcept condition in the constructor and a concept argument to determine if it applies. Make it a templated class. This example copy constructor should accept a universal reference and use std::forward to pass the argument to another function.
+
+Mention what has changed regarding copy constructors since C++11. Make the examples minimalistic but include as many as necessary to illustrate the concepts. Let's focus on the copy constructor and not discuss the Rule of Five or Zero.
+
+# -------------------------------------------------------------------
+Write me an article about my redesigned website. It used to be written using the Hugo static blog generator. I ran into problems because the themes tend to be incomplete, buggy, and unmaintained. The new blog was written using Astro (https://astro.build/) and the AstroPaper theme (https://github.com/satnaing/astro-paper). Give details about both and why they were great choices. I am still using CloudFlare Pages for fast and free deployments.
+
+AstroPaper has support for Markdown, tags, search, and is highly customizable. Astro is very popular, has great documentation, and works great. I considered hosting via GitHub Pages and Vercel. But the features of CloudFlare Pages and its speed are unmatched.
+
+Include code snippets and configuration examples from Astro. Be more technical and tutorial-like in tone. Include comparisons of Hugo vs Astro. Mention SEO/Lighthouse scores in the article.
+
+# -------------------------------------------------------------------
+Write a tutorial on Catch2 v3 (https://github.com/catchorg/Catch2). Describe the CMake integration. Showcase common usage scenarios. Describe gotchas and missing features. Focus on writing clean and efficient unit tests. Talk about BDD and benchmarking tests. Talk about when one would or would not want to use Catch2 v3.
+
+Write an article about a canonical C++23 class. Use all modern practices for efficiency and correctness. Describe in detail in the article the design decisions made in the source code. Call the class StringSet. This is a collection of immutable strings (string_view), exposing range operations. Make sure the code is exception-safe and uses move semantics anywhere it makes sense. Also use concepts, stringview, range, and span as appropriate. Put all the source code in a header file (stringset.hpp). Use the include guard (#pragma once) and explain that all modern compilers support it. Add Catch2 unit tests to showcase the features. Also include a sample command line for the compiler. Use [[nodiscard]] and other attributes as appropriate.
+
+Write an article about the proper use of "noexcept" in modern C++23. Talk about its use with universal reference function and constructor parameters and concepts to ensure r-values are moved and not copied.
+
+CMake has had a long history. Now at version 4, it's commands have dramatically changed over time. In other words, modern CMake does not look much like it used to. But the need to support old build scripts has left it with a lot of baggage. Write a tutorial article on modern (version 4) CMake best practices.
+
+---------------------------------------------------------------------
+Talk about the design and implementation of my website (FastCode.Guru). The attached file contains my notes about the process. The website uses the Hugo static website generator and CloudFlare Pages. My only expense so far was about $3 for the domain name registration. The website is actually hosted on GitHub. Updating is very easy. The website is very fast and even includes a free email forwarder. Talk about the pros and cons of this approach vs others.
+
+Many C++ computer programmers use something like "if (a & b)" when they actually want logical AND. They do that to avoid the penalty of "&&" short-circuit evaluation. I find this usage confusing and error-prone. Write me an article discussing the pros and cons of both approaches. I have learned that C++ compilers do not perform short-circuit evaluation of "&&" if the second variable ("b") does not require computations, especially without side effects. Mention this fact in the article, too.
+
+---------------------------------------------------------------------
+Implement a minimal and clean website design using Tailwind 4.1 and Catalyst. Design this as a completely new website. This is a website for a blog.
+
+The website needs to work with Hugo 0.147.0. Use Tailwind CSS 4.1 for the visual design elements. Leverage the features of Tailwind to create an attractive and clean website design. Make sure the source code is well-commented. Make sure the website looks good on mobile devices and on desktops. There is only the need to support American English for the language. Include pagination for lists like blog posts. Include a good set of configuration options. Use Tailwind default colors.
+
+I need support for a thumbnail image for each post to show in post lists. Add a simple footer containing the copyright notice with a year that auto updates.
+
+Add support for Instant.page (https://instant.page/), the JavaScript for preloading pages on mouse hover. Add support for pagefind (https://pagefind.app/) for full-text indexing and search. Add a menu bar at the top. Add a sidebar at the right side.
+
+Add support for a logo image on the left side of the top menu bar. Place the sections' Home', 'Legal', 'About', and 'Contact' in the top bar. Add social media links to LinkedIn and GitHub on the right side of the top menu bar. Add support for a dark theme, accessible via a toggle on the right side of the top menu bar.
+
+On the right sidebar, put a search bar, an author bio with a picture, a disclaimer, Recent Posts, Categories, and Tags sections. Stick with Tailwind defaults for the font. Show the sidebar below the main content on mobile devices.
+
+Add transparent support for webp and avif image formats. This needs to be coded as alternate image formats for images in png or jpg formats. I will supply images in these formats as appropriate.
+
+If useful, add a Bash script file to make full site rebuilding easier.
+
+Call the theme "fast-code-guru". Do not make the author bio or disclaimer sections collapsible. Do not make any of the sidebar sections collapsible. Make the list pages use numbered pagination. Add configuration options for social media URLs, logo path, author bio, disclaimer, etc through the config file.
+
+# -------------------------------------------------------------------
+Create a simple blog using Vite, React, Tailwind 4.1, Node.js, and NPM. I want to generate a static website that I can host using GitHub Pages. Write all the source code in TypeScript.
+
+Write the posts using Markdown with a TOML metadata header in each one. The output needs to be a static website. I need an About page and a page called Legal for legal notices. Keep it all very simple, clean, and well-commented.
+
+Use libraries for the TOML and Markdown conversions. Load the Markdown statically at build time from a local folder. Put a navigation menu at the top. Blog posts need to support syntax highlighting and images. Add an example layout and post.
+
+Use a Vite plugin to compile the blog content (Markdown with TOML frontmatter). Add source code syntax highlighting to the blog posts only. Add support for categories and tags to the blog posts.
+
+Display the blog posts on the homepage. The categories and tags should be clickable to filter posts. Display the categories and tags on a sidebar on the left side of the screen. Use the new Tailwind Catalyst library for styling.
+
+Put all the blog posts inside a posts subdirectory. At build time, generate static pages for each category and tag. Support a variety of programming languages with syntax highlighting. Paginate the posts on the home page.
+
+The homepage pagination should show 10 posts per page, with the newest post showing first. You should choose the TOML and Markdown libraries yourself. The categories and tags should be computed at build time and displayed on the sidebar menu. Markdown should also be used for the About and Legal pages.
+
+Call the title "Fast Code Guru". Call the project "fast-code-guru". Use Tailwind Catalyst as much as possible. Add a build script to auto deploy to GitHub Pages.
+
+# -------------------------------------------------------------------
+# Article ideas
+
+c++ throw exception
+
+dijkstra algorithm (shortest graph path)
+
+c++ multiset
+
+priority queue
+
+dynamic_cast
+
+bitset
+
+decltype
+
+friend class
+
+reinterpret_cast
+
+Rule of Zero/Three/Five
+
+Article about why shared_ptr uses locking when incrementing and decrementing the counter, but it is not thread-safe when assigning a new value to the pointer itself.
+
+Article about threading gotchas in C++. Situations that are thread-safe, and situations that are not.
+
+Gotchas with object lifetimes. Situations that can lead to dangling pointers.
+
+Talk about how CPUs and compiler technology has evolved over time. Multiplication used to be very slow, but not anymore. Generating SIMD instructions from compilers keeps improving. Cost of mispredicted branches keeps going down.
+
+Article about the atomic locking modes, and the problem they have with compiler optimizations.
+
+The evolution of constexpr over the years.
+
+Explain C++s funny concept of const.
+
+unspecified behavior (where valid options exist but the standard doesn’t specify which one is used)
+
+implementation-defined behavior (where each implementation must document its behavior)
+https://cppquiz.org/
+
+article about function parameter 'restrict'; Fortran; does not apply across different types
+
+# -------------------------------------------------------------------
+
+# -------------------------------------------------------------------
+# Astro
+pnpm create astro@latest --template satnaing/astro-paper
+pnpm install
+# pnpm run astro add cloudflare
+pnpm run dev
+pnpm run build
+pnpm dlx @astrojs/upgrade
+
+# -------------------------------------------------------------------
+#  Astro Paper
+https://astro-paper.pages.dev/
+https://github.com/satnaing/astro-paper
+
+# -------------------------------------------------------------------
+https://dash.cloudflare.com/
+https://github.com/carlos-reyes-123/fastcodeguru
+
+# old website
+https://github.com/carlos-reyes-123/fastcodeguru-hugo
+
+# -------------------------------------------------------------------
+# Open Graph Image
+1200 × 630 pixels
+PNG or JPEG
+Keep it <300 KB if possible.
+Include your logo or blog name clearly.
+
+# -------------------------------------------------------------------
+
+https://toml.io/en/
+
+# Syntax Highlighter
+https://shiki.style/
+https://shiki.style/themes
+
+https://day.js.org/
+
+# -------------------------------------------------------------------
+For a clean, modern look with strong readability and warmth, #FDF5E6 (Old Lace) is an excellent choice.
+It avoids both gray and yellow dominance, providing a balanced and inviting background for your blog.
+
+Color Name      Hex Code    Description
+Cream           #FFFDD0     Classic light cream; warm and inviting.
+Linen           #FAF0E6     Subtle pinkish cream; soft and elegant.
+Old Lace        #FDF5E6     Very light, slightly peachy tone; enhances readability.
+Cornsilk        #FFF8DC     Yellow-cream; a bit more vibrant yet soft.
+Antique White   #FAEBD7     Warm and creamy; offers a traditional feel.
+Seashell        #FFF5EE     Light and warm; slight rose tint.
+
+https://creativebooster.net/blogs/colors/cream-color-palettes
+
+# -------------------------------------------------------------------
+# Giscus
+https://giscus.app/
+https://astro-paper.pages.dev/posts/how-to-integrate-giscus-comments/
+https://github.com/settings/installations/65931895
+
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+fastcode.guru
+possible alternative:   thesoftware.pro
+
+https://www.reddit.com/r/fastcodeguru/
+A place to discuss software performance and quality from the perspective of computer programmers.
+
+https://chatgpt.com/c/680d3201-dc34-8005-8cc7-5e8ac72fd0fa
+
+# -------------------------------------------------------------------
+# NameCheap
+
+FastCode.Guru domain registration
+$3/year initial
+$39/year renewal
+
+# -------------------------------------------------------------------
+Bottom line
+The field is crowded with excellent but siloed voices: one blog for micro-architecture, another for language design, another for readability. Nobody is consistently marrying real-world C++ performance work with clear, story-driven writing and real-world examples. Fill that niche and you won’t be “just another C++ blog”—you’ll be the go-to resource for engineers who need both speed and clarity.
+
+# -------------------------------------------------------------------
+# logo
+I run a technical blog on the web domain FastCode.Guru. It is a platform for discussing software performance and quality from the perspective of software developers and programmers. Help me create a logo. I need something intelligent, serious but fresh, and visually clean — no clichés like clipart rockets unless cleverly done.
+
+https://convertio.co/
+
+# -------------------------------------------------------------------
+# Hugo static site generator
+https://github.com/gohugoio/hugo
+https://github.com/hugomods
+https://gohugo.io/installation/linux/
+https://themes.gohugo.io/
+
+# -------------------------------------------------------------------
+# Clarity theme
+https://themes.gohugo.io/themes/hugo-clarity/
+https://github.com/chipzoller/hugo-clarity
+https://neonmirrors.net/
+
+# -------------------------------------------------------------------
+# Instant Page - web page preloading on mouse hover
+https://instant.page/
+https://github.com/instantpage/instant.page
+
+# -------------------------------------------------------------------
+# CloudFlare
+https://dash.cloudflare.com/
+https://pages.cloudflare.com/
+https://developers.cloudflare.com/pages/
+https://developers.cloudflare.com/pages/platform/limits/
+https://developers.cloudflare.com/pages/framework-guides/deploy-a-hugo-site/
+
+# hugo version
+HUGO_VERSION = 0.147.0
+HUGO_BASEURL = https://fastcode.guru/
+
+# -------------------------------------------------------------------
+# GitHub
+https://repo.new/
+https://github.com/carlos-reyes-123/fastcodeguru
+
+git init
+git remote add origin https://github.com/carlos-reyes-123/fastcodeguru
+git branch -M main
+git commit -m "Initial commit"
+git push --set-upstream origin main
+
+# -------------------------------------------------------------------
+# License
+
+# Apache 2.0
+Site-generation code, theme modifications, build scripts
+
+# CC By 4.0 - Attribution 4.0 International
+https://creativecommons.org/licenses/by/4.0/deed.en
+Article text, images, diagrams
+
+# -------------------------------------------------------------------
+# Web Picture
+# raster graphics file format developed by Google intended as a replacement for JPEG, PNG, and GIF
+# 96.81% of web browsers support it today
+https://en.wikipedia.org/wiki/WebP
+
+# open, royalty-free image file format specification for storing images or image sequences
+# compressed with AV1 in the HEIF container format
+# Better compression efficiency than JPEG as well as better detail preservation,
+# fewer blocking artifacts and less color bleeding around hard edges in composites of natural images, text, and graphics.
+# 94.61% of web browsers support it today
+https://en.wikipedia.org/wiki/AVIF
+
+# compressed raster image format
+# 14.11% of web browsers support it today
+https://en.wikipedia.org/wiki/JPEG_XL
+
+# both support PNG and JPG inputs
+yay -S libwebp libavif
+cwebp -q 80 input.png -o output.webp
+avifenc --min 30 --max 50 input.jpg output.avif
+
+# -------------------------------------------------------------------
+# Markdown Examples
+
+{{% notice note "Note" %}}
+This is a standard "note" style.
+{{% /notice %}}
+
+{{% notice info "Info" %}}
+Here is the "info" style.
+{{% /notice %}}
+
+{{% notice tip "Tip" %}}
+Here is a "tip" variant of a notice.
+{{% /notice %}}
+
+{{% notice warning "Warning" %}}
+Here is the "warning" flavor of a notice.
+{{% /notice %}}
+
+# -------------------------------------------------------------------
+{{% notice tip "Complex Notices are Possible!" %}}
+This is a notice that has a lot of various kinds of content in it.
+
+* Here is a bulleted list
+* With more than one bullet
+    * And even more than one level
+
+Code blocks are fine here, too....
+```csharp
+public void SayHello()
+{
+    Console.WriteLine("Hello, world!");
+}
+```
+{{% /notice %}}
+
+# -------------------------------------------------------------------
+# Math typesetting
+
+https://katex.org/docs/supported.html
+math = true   # globally OR
+math: true    # per page
+
+# /layouts/partials/hooks/head-end.html
+{{ if or .Params.math .Site.Params.math }}
+{{ partial "math.html" . }}
+{{ end }}
+
+# -------------------------------------------------------------------
+# Emojis
+https://www.webfx.com/tools/emoji-cheat-sheet/
+
+enableEmoji = true
+
+🙈 :see_no_evil: 🙉 :hear_no_evil: 🙊 :speak_no_evil:
+
+# optional
+.emoji {
+  font-family: Apple Color Emoji, Segoe UI Emoji, NotoColorEmoji, Segoe UI Symbol, Android Emoji, EmojiSymbols;
+}
+
+# -------------------------------------------------------------------
+# Markdown
+
+https://gohugo.io/content-management/formats/
+https://github.com/yuin/goldmark
+https://spec.commonmark.org/0.31.2/
+https://github.github.com/gfm/
+https://michelf.ca/projects/php-markdown/extra/#footnotes
+
+# -------------------------------------------------------------------
+# Compiler Explorer
+https://godbolt.org/
+
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+https://tailkit.com/app/components/marketing/sections/blog-lists
+https://tailkit.com/app/components/marketing/sections/about
+
+https://tailwindcss.com/blog/introducing-catalyst
+https://tailwindcss.com/plus/ui-kit
+https://catalyst.tailwindui.com/docs
+https://catalyst-demo.tailwindui.com/
+
+https://developers.cloudflare.com/pages/framework-guides/deploy-a-react-site/
+
+https://nextjs.org/docs/pages/api-reference/components/image
+https://nextjs.org/docs/app/api-reference/config/next-config-js/typescript
+
+# -------------------------------------------------------------------
+https://nextjs.org/
+npx create-next-app@latest
+npm run dev
+
+# -------------------------------------------------------------------
+# Inter font - for interfaces
+# over 2000 glyphs covering 147 languages
+# dedicated designs for weights 100, 400 and 900
+https://github.com/rsms/inter
+https://rsms.me/inter/
+https://fonts.google.com/specimen/Inter
+
+import { Inter } from 'next/font/google'
+const inter = Geist({
+  subsets: ['latin'],
+})
+
+<html lang="en" className={inter.className}>
+
+<!-- HTML in your document's head -->
+<link rel="preconnect" href="https://rsms.me/">
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+
+/* CSS */
+:root {
+  font-family: Inter, sans-serif;
+  font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
+}
+@supports (font-variation-settings: normal) {
+  :root { font-family: InterVariable, sans-serif; }
+}
+
+# -------------------------------------------------------------------
+# The world's largest marketplace of themes, templates and UI kits for the modern stack
+https://www.builtatlightspeed.com/
+
+# -------------------------------------------------------------------
+# Tailwind theme
+https://tailwindcss.com/docs/theme
+https://aicolors.co/
+https://www.bairesdev.com/tools/color-palette-app/editor/
+https://www.realtimecolors.com/?colors=12100f-faf9f8-94847b-c3c3b6-abad99&fonts=Inter-Inter
+
+    --primary-100:#d4eaf7;
+    --primary-200:#b6ccd8;
+    --primary-300:#3b3c3d;
+    --accent-100:#71c4ef;
+    --accent-200:#00668c;
+    --text-100:#1d1c1c;
+    --text-200:#313d44;
+    --bg-100:#fffefb;
+    --bg-200:#f5f4f1;
+    --bg-300:#cccbc8;
+
+# -------------------------------------------------------------------
+# Floating UI
+https://floating-ui.com/
+https://github.com/floating-ui/floating-ui
+npm install @floating-ui/react
+
+# -------------------------------------------------------------------
+# Markdown for the component era
+https://mdxjs.com/
+https://github.com/mdx-js/mdx/
+https://mdxjs.com/packages/rollup/
+
+# -------------------------------------------------------------------
+# SWC - Sppedy Web Compiler
+https://swc.rs/
+
+# -------------------------------------------------------------------
+# Page Find
+https://pagefind.app/
+
+# -------------------------------------------------------------------
+# Page Reading Time
+
+https://github.com/ngryman/reading-time
+https://github.com/Bunlong/react-hook-reading-time
+
+# -------------------------------------------------------------------
+# Instant Click
+# JavaScript library that dramatically speeds up your website
+http://instantclick.io/
+
+# -------------------------------------------------------------------
+# Instant Page
+# Make your site’s pages instant in 1 minute and improve your conversion rate noticeably.
+https://instant.page/
+
+# -------------------------------------------------------------------
+# Goat Counter analytics - free
+https://www.goatcounter.com/
+
+# -------------------------------------------------------------------
+# Similar to Tailwind Catalyst
+https://ui.shadcn.com/
+https://originui.com/
+
+# -------------------------------------------------------------------
+# OpenNext.js on CloudFlare
+# The size limit of a Cloudflare Worker is 3 MiB on the Workers Free plan
+# After building your Worker, wrangler will show both the original and compressed sizes
+# Only the latter (compressed size) matters for the Worker size limit.
+# up to 100 Workers on the Workers Free plan.
+https://developers.cloudflare.com/workers/platform/limits/
+
+https://opennext.js.org/cloudflare
+
+https://developers.cloudflare.com/workers/wrangler/
+
+npm install @next/mdx @mdx-js/loader @mdx-js/react @types/mdx
+
+# CloudFlare data storage
+https://developers.cloudflare.com/kv/
+https://developers.cloudflare.com/d1/
+https://developers.cloudflare.com/r2/
+
+npm run dev
+npm run deploy
+
+# -------------------------------------------------------------------
+# Pnpm
+https://pnpm.io/
+
+pnpm install
+pnpm add <pkg>
+pnpm <cmd>
+
+pnpm run dev
+pnpm run deploy
+
+# -------------------------------------------------------------------
+# Remix/React Router v7
+
+https://reactrouter.com/home
+https://github.com/remix-run/react-router
+https://remix.run/blog/incremental-path-to-react-19
+
+https://reactrouter.com/start/framework/installation
+https://developers.cloudflare.com/pages/framework-guides/deploy-a-remix-site/
+https://www.npmjs.com/package/create-cloudflare
+https://github.com/cloudflare/workers-sdk
+https://developers.cloudflare.com/pages/get-started/c3/
+
+# -------------------------------------------------------------------
+# Astro
+
+https://astro.build/
+https://github.com/withastro/astro
+
+https://github.com/Charca/astro-blog-template
+
+https://developers.cloudflare.com/pages/framework-guides/deploy-an-astro-site/
+
+pnpm astro add tailwind
+pnpm install @headlessui/react framer-motion clsx
+
+# -------------------------------------------------------------------
+
+pnpm run start
+pnpm run deploy
+
+
+https://tailwindcss.504b.cc/
+
+# -------------------------------------------------------------------
+# Vite
+# https://vite.dev/
+https://github.com/vitejs/awesome-vite
+https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react-swc
+https://github.com/cssninjaStudio/unplugin-fonts
+
+npm create vite@latest fast-code-guru -- --template react-ts
+npm install --save-dev vite-tsconfig-paths
+
+# -------------------------------------------------------------------
+# React Router
+https://reactrouter.com/
+
+npm i react-router
+npm install -D @react-router/dev
+npm install @react-router/node
+
+# -------------------------------------------------------------------
+# Tailwind
+# https://tailwindcss.com/
+
+npm install tailwindcss @tailwindcss/vite
+# https://tailwindcss.com/docs/installation/using-vite
+
+
+# -------------------------------------------------------------------
+# React
+
+
+https://react.dev/learn/react-developer-tools
+
+# -------------------------------------------------------------------
+# Free static website hosting sites
+
+# Static-only; dead-simple CLI, good for plain React (not Next.js SSR)
+Surge.sh
+
+# GitHub Pages
+https://pages.github.com/
+
+# -------------------------------------------------------------------
+# Zola
+
+https://www.getzola.org/
+
+# -------------------------------------------------------------------
+@ LaTeX
+https://katex.org/docs/browser
+https://inkgray.com/posts/how-to-add-latex-equations-in-blog-posts/
+
+# -------------------------------------------------------------------
+Design an efficient replacement for std::shared_ptr for C++23.
+
+The global control block contains a signed std::int64_t reference counter and an unsigned std::uint32_t count of active threads accessing the object. Both of these have to be wrapped by std::atomic objects.
+
+Use a thread_local std::unordered_map keyed by the address of the shared pointer control block and containing as a value an unsigned std::int64_t for the local reference count of that object. When this local count goes from 0 to 1, the global thread count is incremented. When this local count goes from 1 to 0, the global thread count is decremented. When the local count goes from 1 to 0, the entry from the unsigned_map for that object is deleted. Negative values are not stored locally. Instead of going from 0 to -1, the global reference count is decremented.
+
+When an object handle is created, the local reference count is incremented. When an object handle is destroyed, the local reference count is decremented. Instead of going below 0, the global reference count is decremented.
+
+When the global thread count goes to 0, then it is safe to delete the object.
+
+Does this look like an efficient and thread-safe implementation?
+
+
+C++ doesn’t guarantee the order in which thread-local destructors run relative to static or other globals.
+
+# -------------------------------------------------------------------
+*About the author: I'm a performance-focused developer with experience across game development, financial systems, and low-level infrastructure. I share my insights and techniques on [FastCode.Guru](https://fastcode.guru) to help other developers write faster, safer code.*
+
+# -------------------------------------------------------------------
+# Ahrefs topic ideas
+
+what is C++
+how to learn C++
+what is C++ used for
+what is C++ programming
+how to learn C++ programming
+c++ programming interview questions
+what is modern C++
+use cases for C++
+how to learn modern C++
+best software development practices

@@ -1,6 +1,6 @@
 +++
 draft       = false
-featured    = true
+featured    = false
 title       = "Mastering C++ Range-Based For Loops: Performance Patterns You Need to Know"
 slug        = "c++-range-for-loops"
 description = "Range-based for loops, introduced in C++11, are one of my favorite features for writing cleaner, more maintainable code."

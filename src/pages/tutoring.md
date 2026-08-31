@@ -52,11 +52,19 @@ I use ChatGPT and Claude every day in my own work. I'll teach you how to direct 
 
 Modern C++ (C++11 through C++23) · Python · Algorithms & data structures · AP Computer Science · Debugging technique · Performance optimization & profiling · Capstone and portfolio projects · AI-assisted software development
 
+## Pricing
+
+**$99 USD per hour**, billed in 5-minute increments after the first hour.
+
+- Most students book 1-hour sessions
+- Questions between sessions? Quick email follow-up is free
+- Payment via credit card (processed securely; I never see your number)
+
 ## Booking & Logistics
 
 - **Where:** Online, one-on-one, with students worldwide.
 - **First step:** A free 15-minute call. Tell me what you're working on — and if I'm not the right mentor for it, I'll tell you straight.
-- **Already had your free call?** [Book a full mentoring session →](https://cal.com/fastcodeguru/tutoring-session)
+- **Already had your free call?** [Book a Session — $99/hour →](https://cal.com/fastcodeguru/tutoring-session)
 - **Found me through a tutoring platform such as Crimson Education or Wyzant?** Please book through those websites instead — the links on this page are for independent students.
 - **Rescheduling:** Please give 24 hours' notice if you need to cancel.
 

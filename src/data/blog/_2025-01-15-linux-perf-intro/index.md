@@ -1,6 +1,6 @@
 +++
 draft       = false
-featured    = true
+featured    = false
 title       = "Practical Profiling with perf on Linux"
 slug        = "practical-profiling-perf-linux"
 description = "`perf` is the user-space front-end to the Linux perf_event subsystem."
