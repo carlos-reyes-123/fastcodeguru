@@ -1,6 +1,6 @@
 +++
 draft       = false
-featured    = true
+featured    = false
 title       = "The Complete Beginner's Guide to Learning C++ in 2025"
 slug        = "learning-c++"
 description = "In this guide, I'll walk you through starting your C++ journey from scratch, with a focus on free resources, practical learning paths, and the tools that will make your experience smoother."

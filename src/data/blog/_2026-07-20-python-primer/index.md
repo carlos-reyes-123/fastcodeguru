@@ -1,6 +1,6 @@
 +++
 draft       = false
-featured    = false
+featured    = true
 title       = "Python Has No Variables: A First-Principles Primer for Working Programmers"
 slug        = "python-primer"
 description = "Once you understand why `[[0] * 3] * 3` aliases three rows to one list, you understand Python's object model, its assignment semantics, and half of its famous traps."
