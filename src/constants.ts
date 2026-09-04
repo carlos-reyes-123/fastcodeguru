@@ -11,7 +11,7 @@ import { SITE } from "@/config";
 export const SOCIALS = [
   {
     name: "Mail",
-    href: "mailto:carlos@fastcode.guru",
+    href: "mailto:carlos@fastcodeguru.org",
     linkTitle: `Send an email to ${SITE.title}`,
     icon: IconMail,
   },

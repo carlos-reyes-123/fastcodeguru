@@ -1,6 +1,6 @@
 # Fast Code Guru
 
-This is the source code for the static website [fastcode.guru](https://fastcode.guru), built using [Astro](https://astro.build/) and the [AstroPaper](https://github.com/satnaing/astro-paper) theme.
+This is the source code for the static website [fastcodeguru.org](https://fastcodeguru.org), built using [Astro](https://astro.build/) and the [AstroPaper](https://github.com/satnaing/astro-paper) theme.
 
 ## AstroPaper 📄
 

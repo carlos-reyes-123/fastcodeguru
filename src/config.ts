@@ -1,5 +1,5 @@
 export const SITE = {
-  website: "https://fastcode.guru/",
+  website: "https://fastcodeguru.org/",
   author: "Carlos Reyes",
   profile: "",
   desc: "A place to discuss software performance and quality from the perspective of computer programmers.",

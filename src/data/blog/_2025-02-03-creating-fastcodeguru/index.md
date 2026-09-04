@@ -1,7 +1,7 @@
 +++
 draft       = false
 featured    = false
-title       = "FastCode.Guru Website, Inside & Out"
+title       = "FastCodeGuru Website, Inside & Out"
 slug        = "fast-code-guru-website-inside-out"
 description = "How a $3 Domain, Hugo 0.147, and Cloudflare Pages power a lightning-fast C++ blog."
 ogImage     = "./creating-fastcodeguru.png"
@@ -33,7 +33,7 @@ tags        = [
 
 **How a $3 Domain, Hugo 0.147, and Cloudflare Pages Power a Lightning-Fast C++ Blog**
 
-![FastCode.Guru website](./creating-fastcodeguru.png)
+![FastCodeGuru website](./creating-fastcodeguru.png)
 
 ## Table of Contents
 
@@ -43,7 +43,7 @@ tags        = [
 
 > *The field is crowded with excellent but siloed voices… nobody is consistently marrying real-world C++ performance work with clear, story-driven writing and real-world examples.*
 
-FastCode.Guru set out to close that gap. The editorial mission was ambitious, but the infrastructure goal was blunt-force simple:
+FastCodeGuru set out to close that gap. The editorial mission was ambitious, but the infrastructure goal was blunt-force simple:
 
 * **Near-zero latency worldwide.**
 * **Near-zero maintenance overhead.**
@@ -55,7 +55,7 @@ That checklist ruled out heavyweight CMSs and framed the rest of the build.
 
 ## Update! This article describes the legacy website
 
-FastCode.Guru is no longer being built using the Hugo static website generator, as described in this article.
+FastCodeGuru is no longer being built using the Hugo static website generator, as described in this article.
 The achilles heel of many website generators is the theme templates. Most of these are throwaway projects,
 not getting many updates after the initial release. I gave up on Hugo because I could not find a theme I liked
 and was still being updated.
@@ -174,7 +174,7 @@ Browser-support numbers for WebP/AVIF (≈97 % and 95 %) make the switch low-ris
 | Email routing | Free | Free |
 | Total | **$3** | $39/yr |
 
-Even at renewal price, FastCode.Guru costs less per month than a single small DigitalOcean droplet—and there is no OS patch backlog.
+Even at renewal price, FastCodeGuru costs less per month than a single small DigitalOcean droplet—and there is no OS patch backlog.
 
 ---
 
@@ -276,6 +276,6 @@ When a colleague clones the repo, the same script runs locally—no “works on 
 
 ## Conclusion
 
-FastCode.Guru proves you don’t need a five-figure SaaS stack to run a professional, high-traffic programming blog. A **$3 domain**, **Hugo’s millisecond builds**, and **Cloudflare’s global edge** give you 95 % of what WordPress delivers—minus its complexity—and 100 % of the control open-source developers crave.
+FastCodeGuru proves you don’t need a five-figure SaaS stack to run a professional, high-traffic programming blog. A **$3 domain**, **Hugo’s millisecond builds**, and **Cloudflare’s global edge** give you 95 % of what WordPress delivers—minus its complexity—and 100 % of the control open-source developers crave.
 
 Better still, the stack mirrors the ethos of high-performance C++: *simple abstractions, ruthless efficiency, measurable speed.* The infrastructure story is the perfect prologue to every article you’ll publish next.

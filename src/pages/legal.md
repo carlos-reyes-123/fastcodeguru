@@ -9,7 +9,7 @@ layout      = "../layouts/PageLayout.astro"
 
 ### Disclaimer
 
-The information, code samples, and opinions published on *FastCode.Guru* (the “Site”) are provided **for educational and informational purposes only**. The content reflects the author’s personal views and **does not represent** the views of any past, present, or future employer, client, or affiliate.
+The information, code samples, and opinions published on *FastCodeGuru.Org* (the “Site”) are provided **for educational and informational purposes only**. The content reflects the author’s personal views and **does not represent** the views of any past, present, or future employer, client, or affiliate.
 
 ### No professional advice
 Nothing on this Site constitutes professional software-engineering, legal, financial, or other advice. **You remain solely responsible** for evaluating and testing any techniques or code before using them in production.
