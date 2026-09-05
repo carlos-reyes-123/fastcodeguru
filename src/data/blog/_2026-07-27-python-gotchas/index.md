@@ -1,488 +1,657 @@
 +++
 draft       = false
 featured    = false
-title       = "Stop Memorizing Python Gotchas — Learn the Four Machines That Produce Them"
+title       = "Python Doesn't Have Variables. That's Why These Gotchas Keep Winning."
 slug        = "python-gotchas"
-description = "The entire zoo of gotchas — the quiz classics, the code-review repeat offenders, the 2 a.m. incidents — reduces to four root causes."
+description = "Python does not have variables — it has names bound to objects — and that single mismatch is why mutable defaults, late-binding closures, and half the interview quiz still catch working programmers."
 ogImage     = "./python-gotchas.jpg"
 pubDatetime = 2026-07-27T16:00:00Z
 author      = "Carlos Reyes"
 tags        = [
     "Python Gotchas",
     "Mutable Default Arguments",
-    "Late Binding",
+    "Late Binding Closures",
     "Name Binding",
-    "Scoping Rules",
-    "Floating-Point Arithmetic",
-    "Decimal Arithmetic",
-    "Tuple Immutability",
-    "Python Dataclasses",
-    "CPython Internals",
-    "Free-Threaded Python",
-    "Pattern Matching",
-    "Static Analysis",
-    "Ruff",
-    "Financial Systems",
-    "Game Development",
-    "Web Infrastructure",
-    "Code Review",
-    "Best Practices",
-    "Deep Dive"
+    "Python Object Model",
+    "Scope Rules",
+    "Class Attributes",
+    "Object Identity",
+    "Integer Interning",
+    "In-Place Operators",
+    "Frozen Dataclasses",
+    "Hashing Contract",
+    "Pass by Assignment",
+    "Deferred Annotations",
+    "Python Interviews",
+    "Software Correctness",
+    "Python 3.14",
+    "Function Parameters",
+    "Technical Tutorial",
+    "Language Deep Dive"
 ]
 +++
 
-![Stop Memorizing Python Gotchas — Learn the Four Machines That Produce Them](./python-gotchas.jpg "Stop Memorizing Python Gotchas — Learn the Four Machines That Produce Them")
+![Python Doesn't Have Variables. That's Why These Gotchas Keep Winning.](./python-gotchas.jpg "Python Doesn't Have Variables. That's Why These Gotchas Keep Winning.")
 
 ## Table of Contents
 
 ---
 
-# Stop Memorizing Python Gotchas — Learn the Four Machines That Produce Them
+# Python Doesn't Have Variables. That's Why These Gotchas Keep Winning.
 
-The most expensive function signature I ever approved in a code review was five words long:
+Put this on a whiteboard. Don't run it yet. Write down what it prints.
 
 ```python
-def render_email(template, context={}):
+# Python 3.12+  (CPython; same results on 3.14)
+def add_item(item, bucket=[]):
+    bucket.append(item)
+    return bucket
+
+print(add_item("sword"))
+print(add_item("shield"))
 ```
 
-It lived in a templating helper behind a fleet of long-lived gunicorn workers. One tenant overrode a key in what they reasonably assumed was a per-request dictionary. Because the workers never restarted, that key quietly persisted into the *next* tenant's invoice email. No traceback. No error log. Nothing "crashed" — the dictionary simply remembered, because in Python that default object is created exactly once. The incident cost us a customer apology and one very quiet afternoon of audit work.
+Most people write `['sword']` then `['shield']`. Python prints `['sword']` then `['sword', 'shield']`.
 
-Every Python quiz asks this question. Most candidates recite the answer. It still shipped, because the quiz version never tells you *why* — and "why" is the only version that generalizes.
+That isn't a compiler bug. It isn't "Python being weird." It is the language doing exactly what it said it would do, and your mental model of *variables* is the thing that is wrong.
 
-Here's my claim after two decades of reading other people's Python: the entire zoo of gotchas — the quiz classics, the code-review repeat offenders, the 2 a.m. incidents — reduces to **four root causes**:
+I still see this one in interviews. I still see it in production. I still see language models emit it with a docstring that claims the list is empty every call. The quiz never got old because the mistake is not trivia. It is the object model.
 
-1. **Some things are evaluated once, earlier than you think.**
-2. **Assignment binds names; it doesn't copy objects.**
-3. **Implementation details keep masquerading as language promises.**
-4. **Numbers don't behave the way math class taught you.**
+If you take one thing from this article, take this: **Python has names bound to objects. It does not have boxes that hold values.** Almost every famous Python gotcha is that sentence in costume.
 
-Learn the four machines and you stop being surprised by any individual trap. Let's build them.
+## See the object, not the name
 
----
-
-## Machine 1: Some things are evaluated once, earlier than you think
-
-Python executes `def` statements. That's the whole secret. A function definition isn't a blueprint consulted at call time; it's a statement that *runs* — usually at import time — and builds a function object, evaluating its default arguments **once** in the process.
-
-### The mutable default argument
-
-The quiz version:
+I learned C++ at Bell Labs in 1987. C++ has objects, pointers, and references, and people still mix them up. Python is simpler on paper and more confusing in practice: there are no pointers in the syntax, and every name is a reference.
 
 ```python
-def f(acc=[]):
-    acc.append(len(acc))
-    return acc
-
-f()                   # [0]
-f()                   # [0, 1]  — not [0]
-f.__defaults__        # ([0, 1],)  — the "default" is a real object you can inspect
+x = [10]
+y = x
+y.append(20)
+print(x)   # [10, 20]
 ```
 
-Note that last line. `__defaults__` is a tuple hanging off the function object, and the list inside it is the *same list* on every call. Nothing spooky — just an object you weren't told about. (Keyword-only defaults live in `__kwdefaults__`; same trap, different drawer.)
+`y = x` did not copy a list. It bound a second name to the same object. `append` mutated that object. Both names see the mutation because there was only ever one list.
 
-Here's the bug end-to-end, in the web-infrastructure shape it actually takes in production. This file is self-contained — run it on any CPython 3.x:
+Now the immutable case:
 
 ```python
-"""Mutable default arguments, end to end. Runs on CPython 3.11+ (nothing here is version-specific)."""
-
-PLUGINS = {}
-
-
-def register_plugin(name, config={}):
-    """Register a plugin; missing keys fall back to defaults.
-
-    BUG: `config`'s default is ONE dict, built when this `def` executes
-    (import time), and reused by every call that omits it.
-    """
-    config.setdefault("retries", 3)
-    PLUGINS[name] = config
-
-
-# --- demonstration ---
-register_plugin("auth", {"timeout": 5})   # caller-supplied dict; fine
-register_plugin("billing")                # uses the shared default
-register_plugin("search")                 # uses the SAME shared default
-
-PLUGINS["billing"]["retries"] = 10        # ops tweaks billing's retry policy...
-print(PLUGINS["search"]["retries"])       # 10  <- search silently changed too
-print(PLUGINS["billing"] is PLUGINS["search"])  # True: one object, two names
-
-# The default isn't magic. It's an attribute, and it's already polluted:
-print(register_plugin.__defaults__)       # ({'retries': 10},)
-
-
-# --- fixed version ---
-_UNSET = object()   # a sentinel: a unique object whose only job is identity
-
-def register_plugin_fixed(name, config=_UNSET):
-    if config is _UNSET:        # `is`, not `==` — identity is the whole point
-        config = {}
-    config.setdefault("retries", 3)
-    PLUGINS[name] = config
+x = 5
+y = x
+x = x + 1
+print(x, y)   # 6 5
 ```
 
-Two design notes on the fix. First, `config=None` works when `None` is never a meaningful value; the moment `None` could legitimately mean "explicitly no config," you need a private sentinel — `object()` gives you a value nothing else can equal. Second, notice the buggy version also mutated *caller-supplied* dicts via `setdefault`. Mutating arguments you don't own is the polite cousin of the same disease.
+Integers cannot be mutated. `x = x + 1` built a new `int` and rebound the name `x`. `y` still names `5`.
 
-> **Gotcha:** The failure mode is proportional to process lifetime. A shared default is invisible in unit tests (fresh interpreter every run) and poisonous in long-lived workers — gunicorn, Celery, Jupyter kernels. If your test suite passes and production leaks across requests, suspect anything evaluated at import time.
+That is the whole game:
 
-**The strongest counterargument** — and I owe it honesty — is that this "bug" is occasionally exploited on purpose. `def fib(n, _cache={})` is a zero-dependency memoization trick, and it works precisely *because* the dict persists. I've seen it defended as fast and dependency-free. Both true. I still ban it: it fails the "will the next reader flinch" test, and `functools.lru_cache` does the job with an explicit name. (Mind `lru_cache`'s own cousin-gotcha: it pins its argument objects in memory, and on a method that means pinning `self` — a slow leak in long-lived services.)
+- **Rebinding** a name (`x = ...`) points the name at a different object.
+- **Mutating** an object (`x.append(...)`, `x[0] = ...`, `x += ...` on a list) changes the object that every name for it can see.
 
-### Closures bind late
+Methods that mutate usually return `None`. That is deliberate. `sorted(xs)` returns a new list. `xs.sort()` mutates and returns `None`. If you write `xs = xs.sort()`, you now have `None`, and the bug is loud. Be grateful when bugs are loud. The ones below are quiet.
 
-Second trap from the same machine: closures capture **variables, not values**. A closure keeps a reference to a shared *cell* — the box a name lives in — and reads it when *called*, not when *created*.
+> **Pro tip:** When a result surprises you, print `id(obj)` — or just use `is`. Equality asks "same value?" Identity asks "same object?" Interviews mix those on purpose.
 
-A game studio team I know of hit the canonical version. Their main menu had a dozen buttons built in a loop over action names. In playtesting, every button — New Game, Load, Settings — quit the game. Every lambda was reading the same loop variable, which after the loop held `"quit"`. One line, found by a tester, fixed by a junior, understood by nobody until a senior drew the cell diagram on a whiteboard.
+## Watch a default argument outlive the call
 
-Here's the whole story, runnable:
+Function defaults are evaluated **once**, when the `def` runs, not on every call. The official FAQ has said this for years, and people still write this:
 
 ```python
-"""A toy game-menu dispatcher with the classic capture bug — and two fixes.
-Tested on CPython 3.11/3.12; behavior is identical on all Python 3."""
+def foo(mydict={}):
+    ...
+```
+
+Here is a complete, runnable cousin of the bug as it shows up in student games and in service code that "just needs a little cache."
+
+```python
+# Python 3.12+
+# Run: python3 this_file.py
+
+from pprint import pprint
+
+
+def add_drop(item: str, inventory: list | None = []) -> list:
+    """Looks innocent. The default list is created once, at def time."""
+    inventory.append(item)
+    return inventory
+
+
+def add_drop_fixed(item: str, inventory: list | None = None) -> list:
+    if inventory is None:
+        inventory = []
+    inventory.append(item)
+    return inventory
+
+
+def main() -> None:
+    hero = add_drop("sword")
+    npc = add_drop("apple")          # shares hero's list
+    print("broken hero:", hero)
+    print("broken npc: ", npc)
+    print("same object?", hero is npc)
+
+    hero2 = add_drop_fixed("sword")
+    npc2 = add_drop_fixed("apple")
+    print("fixed hero:", hero2)
+    print("fixed npc: ", npc2)
+    print("same object?", hero2 is npc2)
+
+
+if __name__ == "__main__":
+    main()
+```
+
+Contract: each caller who omits `inventory` should get a fresh list.
+
+Failing input: two calls with no second argument.
+
+What actually happens: both calls receive the **same** list object, stored on the function as `add_drop.__defaults__[0]`. After the second call you have `['sword', 'apple']` in both names, and `hero is npc` is `True`.
+
+The fix is the one in the FAQ: default to `None`, allocate inside. Use `is None`, not `if not inventory`. An empty list the caller passed you is a real inventory. It is empty on purpose.
+
+> **Gotcha:** `def f(xs=None): xs = xs or []` looks like the fix. It is not. A caller who passes `[]` — a valid empty collection — gets it thrown away. Same trap as `name = name or "anonymous"` when `""` is a legal name.
+
+The counterargument I hear: "But you can use a mutable default as a memoization cache." You can. The FAQ even shows it. I almost never want that. It is implicit global state hanging off a function object, it is a nightmare to test, and `functools.cache` / `functools.lru_cache` already exist. If I *do* want a cache parameter for tests, I make it keyword-only and name it `_cache`, so nobody trips into it.
+
+```python
+from functools import cache
+
+@cache
+def expensive(a: int, b: int) -> int:
+    return a ** b
+```
+
+That is the production version of the FAQ's trick, without the landmine in the parameter list.
+
+## Catch closures that all remember the last loop value
+
+This is the other interview classic, and it is the same bug wearing a lambda.
+
+```python
+squares = []
+for x in range(5):
+    squares.append(lambda: x ** 2)
+
+print(squares[2]())  # people say 4
+print(squares[4]())  # people say 16
+```
+
+Both print `16`. Then you do `x = 8` and `squares[2]()` prints `64`.
+
+The lambdas did not capture **values**. They captured the **name** `x`. Lookup happens when the lambda runs, not when it is created. After the loop, `x` is `4`. One name, one object, five functions staring at it.
+
+This is not a lambda special. Nested `def` does the same thing. The usual CS 2 pattern is a GUI or a game: you build buttons in a loop, each supposed to select a different item, and every button selects the last item.
+
+Fix by binding a value at definition time. A default argument is the idiomatic trick, because defaults *are* evaluated at `def` time — the same fact that just burned you.
+
+```python
+# Python 3.12+
 from functools import partial
 
-ACTIONS = ["new_game", "load_game", "quit"]
+
+def make_handlers_broken(names: list[str]) -> list:
+    handlers = []
+    for name in names:
+        handlers.append(lambda: f"equip {name}")
+    return handlers
 
 
-class Button:
-    def __init__(self, label, on_press):
-        self.label = label
-        self._on_press = on_press
-
-    def press(self):
-        return self._on_press()
+def make_handlers_default(names: list[str]) -> list:
+    handlers = []
+    for name in names:
+        handlers.append(lambda n=name: f"equip {n}")
+    return handlers
 
 
-def dispatch(action):
-    return f"do_{action}()"
+def make_handlers_partial(names: list[str]) -> list:
+    def equip(n: str) -> str:
+        return f"equip {n}"
+    return [partial(equip, name) for name in names]
 
 
-def build_menu_buggy():
-    buttons = []
-    for action in ACTIONS:
-        # BUG: each lambda captures the VARIABLE `action`, not its current value.
-        # After the loop, the shared cell holds "quit" — every button quits.
-        buttons.append(Button(action, lambda: dispatch(action)))
-    return buttons
+def make_handlers_factory(names: list[str]) -> list:
+    def make(n: str):
+        return lambda: f"equip {n}"
+    return [make(name) for name in names]
 
 
-def build_menu_fixed():
-    buttons = []
-    for action in ACTIONS:
-        # Default args are evaluated when the lambda is CREATED — this freezes
-        # the current value of `action` into a per-lambda local named `a`.
-        buttons.append(Button(action, lambda a=action: dispatch(a)))
-    return buttons
+def main() -> None:
+    names = ["sword", "bow", "staff"]
+    broken = make_handlers_broken(names)
+    print("broken: ", [h() for h in broken])
+    print("default:", [h() for h in make_handlers_default(names)])
+    print("partial:", [h() for h in make_handlers_partial(names)])
+    print("factory:", [h() for h in make_handlers_factory(names)])
 
 
-def build_menu_partial():
-    # Best of all: no lambda. partial() captures the value eagerly and reads
-    # like what it is — a function with one argument pre-filled.
-    return [Button(a, partial(dispatch, a)) for a in ACTIONS]
-
-
-print([b.press() for b in build_menu_buggy()])
-# ['do_quit()', 'do_quit()', 'do_quit()']
-print([b.press() for b in build_menu_fixed()])
-# ['do_new_game()', 'do_load_game()', 'do_quit()']
+if __name__ == "__main__":
+    main()
 ```
 
-Two subtleties worth their own paragraph. First: no, comprehensions don't save you. Python 3 gave comprehensions their own scope, so the loop variable no longer leaks out — but `[lambda: i for i in range(3)]` still produces three lambdas that all return `2`, because there's one cell for `i` inside the comprehension and every lambda shares it. Second: the `lambda a=action:` fix and the mutable-default bug are the *same machine* running in opposite directions. Defaults are evaluated once at creation — usually a trap, here the cure.
+All three fixes work. I use `lambda n=name` in a quiz. I use a tiny factory or `partial` in real code, because the default-argument capture looks like a typo unless everyone on the team knows the trick.
 
-> **Pro tip:** You don't have to memorize these; your linter does. Ruff (which reimplements flake8-bugbear) flags mutable defaults as `B006`, function calls in defaults as `B008`, and loop-variable capture as `B023`. I teach juniors to run `ruff check --select B .` before their first review — it turns three quiz questions into three squiggly lines.
+List comprehensions do **not** save you if the lambda still closes over the loop name from the comprehension's scope in the same late-binding way. `[(lambda: i) for i in range(3)]` — each lambda still looks up `i` when called. In Python 3 the comprehension has its own scope, so `i` is not leaked to the module, but the lambdas still share that one `i`. Same bug, smaller blast radius.
 
-One more early-evaluation classic, because it bites in config files: adjacent string literals are concatenated **at compile time**. It's a feature for wrapping long strings and a bug farm in lists:
+> **Pro tip:** If you are generating functions in a loop, force the value into a local that cannot change: a default, a `partial`, or a one-arg factory. If a reviewer has to squint, it is the wrong form.
+
+## See UnboundLocalError rewrite the function you thought you understood
+
+This one feels like time travel.
 
 ```python
-ALLOWED_SCOPES = [
-    "users:read",
-    "users:write"
-    "billing:read",      # missing comma above: silently becomes
-                         # "users:writebilling:read"
-]
+x = 10
+
+def bar():
+    print(x)
+
+bar()   # 10, fine
 ```
 
-No exception, no warning from the interpreter — just an auth system that denies a permission that exists and grants one that doesn't. Ruff's `ISC` rules catch it.
-
----
-
-## Machine 2: Assignment binds names; it doesn't copy objects
-
-If you're coming from C++, this is the machine that eats you. C++ assignment copies (or moves) values into boxes. Python has no boxes. Python has *objects* floating in space and *names* stuck to them with Post-it notes. `a = b` never copies anything; it moves a Post-it.
-
-### The `UnboundLocalError` surprise
-
-Scope in Python is decided **statically, at compile time**, per function: if a name is assigned *anywhere* in a function body, it's local *everywhere* in that body — including the line before the assignment. That's why this quiz favorite fails:
+Add one line:
 
 ```python
-total = 0
+x = 10
 
-def add(x):
-    print(total)   # UnboundLocalError — even though a global `total` exists
-    total += x     # <- this assignment made `total` local for the WHOLE function
+def foo():
+    print(x)
+    x += 1
 ```
 
-The fix is `global total` (or better, stop using module state), and `nonlocal` for the same problem one nesting level up. The lookup order juniors memorize — LEGB: Local, Enclosing, Global, Built-in — is only half the story; the other half is that the *local* bucket's membership is fixed before the function ever runs.
+`foo()` raises `UnboundLocalError: cannot access local variable 'x' where it is not associated with a value`.
 
-<details>
-<summary><strong>Deep dive: watch the compiler decide (disassembly)</strong></summary>
+Python decides *at compile time* whether a name is local to a function. If the function contains any assignment to `x` — including `x += 1`, `x = ...`, or even an `x =` that never runs — `x` is local for the **entire** function. The `print(x)` at the top is not reading the global. It is reading a local that has not been bound yet.
 
 ```python
-import dis
+def sneaky(flag: bool) -> None:
+    if flag:
+        msg = "set"
+    print(msg)
 
-def add(x):
-    total += x
-    return total
-
-dis.dis(add)
+sneaky(True)    # ok
+sneaky(False)   # UnboundLocalError
 ```
 
-On CPython 3.12 you'll see (trimmed; opcodes shift slightly between versions):
+`global` rebinds a module name. `nonlocal` rebinds an enclosing function's name. You need the declaration on the function that assigns, not the one that only reads.
 
-```text
-LOAD_FAST     1 (total)   # local — the compiler saw STORE_FAST below
-LOAD_FAST     0 (x)
-BINARY_OP     13 (+=)
-STORE_FAST    1 (total)
+```python
+def outer() -> None:
+    x = 10
+    def inner() -> None:
+        nonlocal x
+        x += 1
+    inner()
+    print(x)   # 11
 ```
 
-`LOAD_FAST`, not `LOAD_GLOBAL`. The symbol-table pass ran when the function was *compiled* and filed `total` as local because of that `STORE_FAST`. At runtime, `LOAD_FAST` hits an unassigned slot and raises. Since 3.11 the message reads "local variable 'total' referenced before assignment"; 3.13 reworded it to "cannot access local variable… where it is not associated with a value." Same machine, new label.
+Without `nonlocal`, `inner` creating `x += 1` makes `x` local to `inner`, and you are back in `UnboundLocalError`.
 
-</details>
+Python 3 comprehension scopes are a related kindness: `[i for i in range(3)]` does **not** leak `i` into the enclosing function. A plain `for` loop does:
 
-### Class attributes are not instance attributes
+```python
+for i in range(3):
+    pass
+print(i)   # 2  — the name survives the loop
+```
 
-Same Post-it machine, wearing a class. This pair of bugs travels together:
+Students who learned Java or C++ expect the loop variable to be scoped to the loop. It is not. That leftover `i` shows up in closures, in error messages, and in "how is this still defined?" debugging sessions.
+
+The walrus operator (`:=`, Python 3.8+) can leak out of a comprehension into the enclosing scope, which regular comprehension targets do not:
+
+```python
+vals = [y := x + 1 for x in range(3)]
+print(y)   # 3 — y lives outside the comprehension
+```
+
+Use that on purpose or not at all.
+
+## Stop treating tuples as frozen lists
+
+Strings are immutable. `s[0] = "X"` is a `TypeError`. `s += "!"` looks like mutation; it is rebinding. That is why building a string with `s += chunk` in a loop is a quadratic habit — each step allocates a new `str`. Join a list of chunks, or use `io.StringIO` / a `bytearray` for bytes.
+
+Tuples are immutable **in their slots**, not in the objects those slots name.
+
+```python
+t = ([], "ok")
+t[0].append("mutated")
+print(t)   # (['mutated'], 'ok')
+```
+
+The tuple still names the same two objects. The list at slot 0 changed, because lists can.
+
+The quiz version is meaner, and it is in the Programming FAQ because it deserves to be.
+
+```python
+a_tuple = (["foo"], "bar")
+a_tuple[0] += ["item"]
+```
+
+You get `TypeError: 'tuple' object does not support item assignment`. Then you print `a_tuple[0]` and it is `['foo', 'item']`.
+
+The exception fired **and** the mutation stuck.
+
+`+=` on a list calls `__iadd__`, which is `extend`, which mutates in place and returns the same list. Then Python tries to assign that result back into the tuple slot. The assignment fails. The extend already happened.
+
+> **Gotcha:** `a_tuple[0] += ['item']` is not atomic. For lists it is "mutate, then rebind." The mutate can succeed and the rebind can fail. Do not use `+=` on an item you cannot rebind.
+
+Related: `+` on lists always makes a new list. `+=` on lists mutates. `+=` on tuples makes a new tuple. Same operator, type-dependent contract. If you learned operator overloading from C++, this is the Python version of "the operator you thought you knew."
+
+And the multidimensional-list trap, which is the same shared-object story:
+
+```python
+A = [[None] * 2] * 3
+A[0][0] = 5
+print(A)
+# [[5, None], [5, None], [5, None]]
+```
+
+`* 3` copied **references**, not rows. Three names, one inner list. The fix:
+
+```python
+A = [[None] * 2 for _ in range(3)]
+```
+
+The inner `[None] * 2` is fine because `None` is immutable. The comprehension is what gives you three distinct outer lists.
+
+## Notice class attributes are shared until an instance steals the name
+
+```python
+class Inventory:
+    items = []          # one list for the class
+
+a = Inventory()
+b = Inventory()
+a.items.append("sword")
+print(b.items)          # ['sword']
+```
+
+`items` lives on the class. Instances that have not assigned `self.items` all share it. `a.items.append` mutates the class object. `b` never had a chance.
+
+Rebinding is different:
+
+```python
+a.items = ["potion"]    # creates an instance attribute
+print(a.items)          # ['potion']
+print(b.items)          # ['sword']  — still the class list
+print(Inventory.items)  # ['sword']
+```
+
+Reads walk the instance, then the class, then bases. Writes to `self.name = ...` plant an instance attribute and shadow the class one. Mutating methods (`append`, `+=` on a list, `dict.__setitem__`) do **not** plant an instance attribute. They follow the read, find the class object, and change it.
+
+That is why mutable class attributes are almost always a mistake, and immutable ones (constants, shared converters) are fine.
 
 ```python
 class Player:
-    inventory = []                 # class attribute: ONE list, shared by everyone
-
-    def loot(self, item):
-        self.inventory.append(item)    # MUTATES the shared class attribute
-
-
-class Counter:
-    hits = 0
-
-    def bump(self):
-        self.hits += 1    # READS Counter.hits, then BINDS an instance attribute
-                          # that shadows it. Counter.hits stays 0 forever.
+    max_hp = 100        # shared constant: fine
+    flags = []          # shared mutable: bug farm
 ```
 
-`self.x += 1` on a class attribute is a perfect trap: the read finds the class attribute, the augmented assignment then *binds an instance attribute* — so each object gets its own copy starting from the shared value, the class counter never moves, and `Counter.hits` and `c.hits` quietly disagree. It looks like it works. That's what makes it expensive.
-
-The modern fix is dataclasses, which also turned this from a runtime ambush into a definition-time error:
+Dataclasses learned this lesson. This raises at class-build time:
 
 ```python
 from dataclasses import dataclass, field
 
 @dataclass
-class Player:
-    name: str
-    inventory: list[str] = field(default_factory=list)   # fresh list per instance
+class Inventory:
+    items: list = []    # ValueError: mutable default ... use default_factory
 ```
 
-Write `inventory: list = []` instead and CPython raises `ValueError` at class-creation time — it has refused list/dict/set defaults since dataclasses landed in 3.7, and 3.11 extended the check to any unhashable default. Two adjacent traps worth one line each: a plain `@dataclass` sets `__hash__` to `None` (defining `__eq__` kills hashability), so your instances silently become unusable as dict keys until you add `frozen=True` or `eq=False`; and `frozen=True` is shallow — it freezes the Post-its, not the objects.
-
-> **Pro tip:** When I tutor, I teach "class body = shared whiteboard, `self` = personal notebook." One sentence, and students stop writing `inventory = []` in class bodies forever. Then I show them `field(default_factory=...)` as the grown-up spelling.
-
-### The tuple that mutates anyway
-
-My favorite quiz question in all of Python, because *every* candidate answer is half wrong:
+The working form:
 
 ```python
-t = ([1, 2],)
-t[0] += [3]
+@dataclass
+class Inventory:
+    items: list = field(default_factory=list)
 ```
 
-What happens? Both of these:
+That is Python being kind. Ordinary classes will not stop you.
 
-1. `TypeError: 'tuple' object does not support item assignment`
-2. `t` is now `([1, 2, 3],)` — **the mutation succeeded before the exception**
+> **Pro tip:** If two instances mysteriously share state, print `obj.__dict__` and `type(obj).__dict__`. If the name is missing from the instance dict, you are looking at the class.
 
-Tuples are shallowly immutable: they freeze the *references*, not the referents. `+=` on a list is an in-place extend, which succeeds — and *then* the interpreter tries to store the result back into the tuple slot, which fails. Mutation first, exception second. This is documented behavior; the official [Python programming FAQ](https://docs.python.org/3/faq/programming.html) has a whole entry for it. The lesson generalizes: immutability in Python is always about binding, never about deep structure. `const`-correctness this is not.
+## Stop using `is` where you mean `==`
 
-> **Gotcha:** Any operation that both mutates and rebinds — augmented assignment on a mutable value stored in an immutable container — can leave you in a half-applied state. If you catch that `TypeError` and retry, you've now applied the mutation twice. Exception handling doesn't roll back side effects.
+`==` is value. `is` is identity. `None` is a singleton; PEP 8 wants `x is None`. Use `is` for `None`, `True`/`False` if you must, and sentinels you created. Do not use `is` for numbers or strings.
 
-### Aliasing: multiplication, shallow copies, and `+=` vs `+`
-
-Three faces of the same Post-it:
+CPython interned small integers. The current range is **-5 through 256**. That is an implementation detail, not the language. It exists so arithmetic on tiny ints does not allocate. It also exists to fail you on a quiz.
 
 ```python
-grid = [[0] * 3] * 3     # outer * replicates REFERENCES to one inner list
-grid[0][0] = 9
-print(grid)              # [[9, 0, 0], [9, 0, 0], [9, 0, 0]]
+a = 256
+b = 256
+print(a is b)          # True in CPython
 
-row = [[1], [2]]
-shallow = row.copy()     # new outer list, same inner lists
-shallow[0].append(99)
-print(row[0])            # [1, 99]  — copy() is shallow; use copy.deepcopy for nesting
+a = 257
+b = 257
+print(a is b)          # often True in the same code block (compiler interned the constant)
 
-def grow_rebind(lst):  lst = lst + [1]    # rebinds the local name; caller unaffected
-def grow_mutate(lst):  lst += [1]         # in-place extend; caller's list changes
+a = int("257")
+b = int("257")
+print(a is b)          # False — two objects, equal value
 ```
 
-`copy.deepcopy` is the correct answer and also a trade-off: it's slow on big graphs and it will happily try to copy things that shouldn't be copied (file handles, sockets, locks) unless your class defines `__deepcopy__`. In game and simulation codebases I've reviewed, the convention is an explicit `.clone()` on entity types — boring, greppable, fast.
+String intern is even sloppier. Identifiers, and some literals, may be interned. Runtime strings often are not.
 
----
+```python
+print("cat" is "cat")           # often True (literal intern)
+print("c" + "at" is "cat")      # implementation-dependent; do not bet
+print("cat" == "cat")           # True, always, and the one you meant
+```
 
-## Machine 3: Implementation details masquerading as language promises
+The quiz that uses `is` on ints is testing whether you know CPython's allocator. That is folklore posing as language law. Compare values with `==`. I do not care that `is` is a nanosecond cheaper. If you have not measured, you do not have a performance problem. You have a correctness problem waiting for a 257.
 
-### `is` is not `==`, and CPython's caching is not a contract
+> **Gotcha:** `True is 1` is `False`. `True == 1` is `True`. `bool` is a subclass of `int`. `{True: "yes", 1: "no"}` is `{True: "no"}` because the keys compare equal and hash equal, so the second insertion overwrites the first. I have seen this eat a config flag and a count that shared a dict.
 
-Quiz: does `a is b` below print `True`? Answer: *which Python, and typed where?*
+## Pass arguments the way Python actually does
 
-| Code (each pair, then `a is b`) | CPython REPL, line by line | Same lines in one script | Why |
+Python does not pass by value. It does not pass by reference. It **passes by assignment**: the parameter is a new name bound to the same object the caller passed.
+
+```python
+def rebind(x):
+    x = [99]          # local name only
+
+def mutate(x):
+    x.append(99)      # caller's list
+
+nums = [1]
+rebind(nums)
+print(nums)           # [1]
+mutate(nums)
+print(nums)           # [1, 99]
+```
+
+If you need multiple outputs, return a tuple. That is the clear form. Mutating a caller's list as an "out parameter" works and is how a lot of C programmers write their first Python. It also makes data flow invisible. Return the new state unless mutation is the whole point (`list.sort`, `dict.update`).
+
+Keyword-only and positional-only parameters are modern and worth using. The slash in `divmod(x, y, /)` means you cannot write `divmod(x=3, y=4)`. The star in `def f(a, *, verbose=False)` means `verbose` must be passed by name. Those exist to stop accidental API coupling, not to look clever.
+
+## Work the quiz cluster that still shows up on exams
+
+These are short. They are also the ones people miss after they think they finished "the hard parts."
+
+**Booleans are ints.** `True + True + True` is `3`. `isinstance(True, int)` is `True`. Never use a `bool` as a dict key next to an `int`. Never rely on `case True:` in `match` if you also match `1` — you are matching the same value with extra steps. (Structural `match` uses `==` for literals; that is a different knife.)
+
+**Chained comparisons are `and` chains, not nested binary ops.**
+
+```python
+False == False in [False]
+```
+
+People parse that as `(False == False) in [False]` → `True in [False]` → `False`.
+
+Python parses it as `(False == False) and (False in [False])` → `True and True` → `True`.
+
+Same rule that makes `1 < x < 10` work like mathematics. Same rule that makes `a == b in collection` a nasty exam item.
+
+**`and` and `or` return operands, not booleans.**
+
+```python
+[] or "default"     # "default"
+"hi" or "default"   # "hi"
+[] and "default"    # []
+```
+
+Useful. Also a type checker headache, and a source of `or` defaults that collapse legitimate falsy values.
+
+**`for`/`else` and `try`/`else` are not "run if it failed."** The `else` on a loop runs if you **did not** `break`. The `else` on `try` runs if **no exception** was raised. I like `for`/`else` for searches. I also comment it, because the next reader will think it is a typo.
+
+```python
+def find(xs, target):
+    for x in xs:
+        if x == target:
+            break
+    else:
+        return None    # no break: not found
+    return x
+```
+
+**Exception names die at the end of `except`.** Python deletes the `as e` name to break the reference cycle between the traceback and the frame.
+
+```python
+def f():
+    try:
+        raise ValueError("boom")
+    except ValueError as e:
+        saved = e
+    print(saved)   # fine
+    print(e)       # UnboundLocalError
+```
+
+If you need the exception after the block, bind another name inside the `except`.
+
+**Floor division on negatives.** `-22 // 10` is `-3`, not `-2`. Python's `//` is floor, and `i == (i // j) * j + (i % j)` is kept, with `i % j` matching the sign of `j`. The FAQ is honest about why: clocks and wrapping want a non-negative remainder.
+
+**Comma is not an operator.** `"a" in "b", "a"` is `(False, "a")`, not a membership test against a tuple. Parenthesize tuples in expressions. Always.
+
+Here is the cheat sheet I actually want on the desk during a quiz. Not as a substitute for the object model — as a check that you applied it.
+
+| What they show you | Naive answer | What Python does | The rule |
 |---|---|---|---|
-| `a = 256; b = 256` | `True` | `True` | CPython caches small ints, currently $-5 \le n \le 256$ |
-| `a = 257; b = 257` | usually `False` | usually `True` | cache ends at 256, but the compiler folds duplicate constants within one code object |
-| `s = "hello"; t = "hello"` | `True` | `True` | identifier-like strings are typically interned |
-| `s = "hello!"; t = "hello!"` | usually `False` | usually `True` | `!` blocks interning; folding still shares within one compiled unit |
+| `def f(x=[])` then two calls | two empty lists | one shared list | defaults evaluated at `def` time |
+| `lambda: i` built in a loop | each `i` frozen | all see the last `i` | closures look up names at call time |
+| `print(x); x += 1` with global `x` | prints the global | `UnboundLocalError` | any assignment makes `x` local for the whole function |
+| `t[0] += [1]` for `t = ([],)` | error, `t` unchanged | error, **and** `t[0]` grew | `__iadd__` mutates, then the assign fails |
+| `[[0]*w]*h` then `A[0][0]=1` | one cell changes | a whole column changes | `*` copies references |
+| `class C: items=[]` | per-instance lists | one list on the class | mutation ≠ instance assignment |
+| `257 is 257` after `int("257")` | `True` | `False` (CPython) | `is` is identity; intern is an optimizer |
+| `False == False in [False]` | `False` | `True` | chained comparisons are `and` chains |
+| `{True: "a", 1: "b"}` | two entries | `{True: "b"}` | `bool` is `int`; equal keys collapse |
+| `xs = xs.sort()` | sorted list | `None` | in-place methods return `None` |
+| `x or []` with `x == []` | keep the `[]` | throw it away | `or` tests truthiness, not `None` |
 
-<details>
-<summary><strong>Why "where you type it" changes the answer</strong></summary>
+## Deep dive: hashing, frozen dataclasses, and what Python 3.14 changed
 
-Constant folding is per *code object*. A script (or a single REPL line) is compiled as one unit, so two occurrences of the literal `257` become one constant object. In a classic REPL, each statement is compiled separately, so the second `257` is a fresh allocation. Interning — CPython's habit of keeping one canonical copy of strings that look like identifiers — is a separate, also-unspecified mechanism (there's `sys.intern` if you ever need it deliberately, e.g., deduplicating millions of repeated tag strings in a metrics pipeline). IPython and Jupyter transform and compile cells differently again, so your mileage will vary there too.
+This is the part a strong junior can skip tonight and a senior should not skim.
 
-</details>
-
-Every row of that table is an *implementation detail*. The small-int cache range has changed before and can change again; PyPy and MicroPython make different choices. The language guarantees none of it. Since Python 3.8, CPython even emits a `SyntaxWarning` when you write `is` against a literal — the interpreter is literally telling you to stop.
-
-The rules I actually follow:
-
-- `is` for singletons: `None`, your own sentinels, enum members, `True`/`False` when you truly mean identity (rare — and remember `1 == True` is `True`, so `if x is True` and `if x == True` *disagree*; usually you want neither, just `if x`).
-- `==` for values. Always for strings and numbers.
-- `type(x) is SomeClass` when you mean "exactly this class"; `isinstance(x, SomeClass)` when subclassing is fine. It usually is.
-
-> **Pro tip:** When a quiz asks an identity question, the senior answer starts with "On which implementation, and compiled as one unit or two?" That sentence alone separates people who memorized the table from people who understand the machine. It also wins interviews.
-
-### The string-concatenation folklore needs updating
-
-You were told: never build a string with `+=` in a loop, it's $O(n^2)$, always use `''.join`. The asymptotic claim is true in the abstract — strings are immutable, so each concat can copy everything so far. But CPython has special-cased the pattern where the left-hand string has exactly one reference for roughly two decades (the specializing interpreter in 3.11 changed the machinery, not the idea), so the naive loop is often far better than folklore claims *on CPython specifically*. PyPy implements strings differently; MicroPython is minimalist.
-
-My actual advice, and it hasn't changed: **use `join` anyway** — not because the loop is slow, but because `join` states your intent, never depends on an optimization detail, and ports across implementations. Then, if the loop is hot, measure instead of citing folklore from 2009. Measurements over mythology. That's the whole job.
-
-### `bool` is an `int`, and other number-tower pranks
+### `__eq__` silently kills hashing
 
 ```python
-isinstance(True, int)     # True
-True + True               # 2
-{True: "a", 1: "b"}       # {True: 'b'} — equal hash, equal value: ONE slot.
-                          # Key stays the first-inserted True; value gets overwritten.
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+    def __eq__(self, other):
+        return isinstance(other, Point) and (self.x, self.y) == (other.x, other.y)
+
+p = Point(1, 2)
+{p}   # TypeError: unhashable type: 'Point'
 ```
 
-That dict result follows mechanically: `hash(True) == hash(1)` and `True == 1`, so the second item lands in the first's slot and updates the value without replacing the key. Quiz gold, and occasionally a real bug in code that mixes JSON-ish bools and ints as keys.
+If you define `__eq__` and not `__hash__`, Python sets `__hash__ = None`. The object becomes unusable in sets and as a dict key. That is correct: a mutable, equality-by-value object in a dict is a footgun. If the fields that participate in equality can change, the hash would move and the dict would lose the entry.
 
-Then the chained-comparison trap. Python lets you write `1 < x < 10`, which desugars to `1 < x and x < 10` with `x` evaluated once. Elegant — until it produces:
+The contract, if you really want hashable points: make them immutable, define `__hash__` from the same fields as `__eq__`, and do not mutate after insertion.
 
 ```python
-False == False in [False]    # True!
-# reads as: (False == False) and (False in [False]) — a CHAIN, not nesting
+class Point:
+    __slots__ = ("x", "y")
+    def __init__(self, x: int, y: int) -> None:
+        object.__setattr__(self, "x", x)  # only needed if you freeze writes
+        object.__setattr__(self, "y", y)
+    def __eq__(self, other: object) -> bool:
+        return isinstance(other, Point) and (self.x, self.y) == (other.x, other.y)
+    def __hash__(self) -> int:
+        return hash((self.x, self.y))
 ```
 
-And the NaN corner, which has broken at least one data pipeline I was called into:
+Or stop hand-rolling it.
 
 ```python
-nan = float("nan")
-nan == nan                 # False  (IEEE 754: NaN is unordered)
-nan in [nan]               # True   (!)
-nan in [float("nan")]      # False
+from dataclasses import dataclass
+
+@dataclass(frozen=True, slots=True)
+class Point:
+    x: int
+    y: int
 ```
 
-That middle line isn't a bug. Membership tests use identity-*or*-equality — the [data model](https://docs.python.org/3/reference/datamodel.html) documents that containers may short-circuit on identity — so a NaN is "in" a list containing the *same object*, but never equal to a different NaN object. If you dedupe sensor readings with sets, NaNs will each live forever. `math.isnan` exists for a reason.
+`frozen=True` gives you `__hash__` (when all fields are hashable) and rejects `p.x = 3`.
 
----
-
-## Machine 4: Numbers don't behave like math class
-
-### Floats, money, and the rounding nobody expects
-
-A trading firm I know of — composite of a few I've worked with — let a junior engineer compute P&L in floats because "doubles have 15 digits, that's plenty." It is plenty, until you sum ten thousand fills priced in tenths of a cent and the ledger drifts by whole cents against the clearinghouse's fixed-point books. Reconciliation flagged it; an auditor did not find it charming. The rewrite moved prices to `Decimal` at the boundaries and integer ticks internally.
+> **Gotcha:** frozen is shallow. It freezes **attribute binding**, not the objects in the fields.
 
 ```python
-"""Money in Python: the float trap and the Decimal fix. Any CPython 3.x."""
-from decimal import Decimal, ROUND_HALF_UP
+from dataclasses import dataclass, field
 
-print(0.1 + 0.2 == 0.3)    # False — 0.1 and 0.2 have no exact binary form
-print(0.1 + 0.2)           # 0.30000000000000004
+@dataclass(frozen=True)
+class Group:
+    members: list = field(default_factory=list)
 
-CENTS = Decimal("0.01")
-
-def money(text: str) -> Decimal:
-    # Build from str, NEVER from float:
-    #   Decimal(0.1)    -> 0.1000000000000000055511151231257827... (bakes in the error)
-    #   Decimal("0.1")  -> 0.1 exactly
-    return Decimal(text).quantize(CENTS, rounding=ROUND_HALF_UP)
-
-price = money("19.99")
-total = (price * 3).quantize(CENTS, rounding=ROUND_HALF_UP)
-print(total)               # 59.97
+g = Group()
+g.members.append("ada")   # succeeds
+# g.members = []          # FrozenInstanceError
 ```
 
-Two rounding traps ride along. First, Python's built-in `round` does **round-half-to-even** ("banker's rounding"): `round(2.5)` is `2`, `round(3.5)` is `4`. This is deliberate — it kills the systematic upward bias of always rounding halves up — and it's also why your invoice total disagrees with a spreadsheet. Second, `round` can't save you from representation: the official [floating-point tutorial](https://docs.python.org/3/tutorial/floatingpoint.html) uses `round(2.675, 2)` → `2.67`, because the stored value is slightly *less* than 2.675. Pick your rounding mode explicitly, at the boundary, with `quantize`.
+The tuple lesson again. The dataclass did not become deeply immutable. If you need a hashable group, store a `tuple`, not a `list`.
 
-> **Pro tip:** The rule I give students: floats are for *measurements* (physics, latency, temperatures), exact types are for *ledgers* (money, inventory counts, anything audited). Inside hot trading paths, skip even `Decimal` and carry integer cents or ticks — fixed-point is what the exchanges use, and it's faster than either.
+### Shallow copy is a new name for old insides
 
-### Division that floors where C truncates
+```python
+import copy
 
-For my fellow C++ people: Python's `//` **floors** toward negative infinity; C++'s integer `/` **truncates** toward zero — GCC, Clang, and MSVC alike. So `-7 // 2` is `-4` in Python and `-3` in C++, and the remainder follows suit (`-7 % 2 == 1` in Python, `-7 % 2 == -1` in C++). Porting an algorithm with negative indices or wrapped coordinates between the two languages without touching this is a rite of passage. `math.trunc` and `int(a / b)` exist if you truly want C semantics. You rarely do — Python's choice makes `divmod` and grid math come out cleaner — but you need to know the fork is there.
+row = [[1, 2], [3, 4]]
+shallow = copy.copy(row)       # or row[:]
+deep = copy.deepcopy(row)
 
----
+row[0][0] = 99
+print(shallow[0][0])           # 99 — inner list shared
+print(deep[0][0])              # 1
+```
 
-## Modern wrinkles: the language is patching its own gotchas
+`dict.copy()`, `list[:]`, and `copy.copy` duplicate the container. They do not duplicate children. `dict.fromkeys(["a", "b"], [])` is the same trap as mutable defaults: one list, many keys.
 
-One thing I genuinely like about recent Python: the core team keeps converting runtime ambushes into compile-time errors or explicit options. A running list for your quizzes:
+### Annotations in 3.14 are deferred, and that changes a class of bugs
 
-- **`zip` silently truncates** to the shortest input — until Python 3.10 added `strict=True` (PEP 618), which raises on length mismatch. Default to it in reviews; silent truncation in a data join is how rows quietly vanish.
-- **Dict order is a promise now**: insertion order became a language guarantee in 3.7 (it was a CPython implementation detail in 3.6). Sets remain unordered and str/bytes hashes are randomized per process, so "it worked on my machine" remains available for sets.
-- **`match` has a capture trap** (3.10+): a bare name in a `case` doesn't compare, it *binds*. `case MENU_QUIT:` matches *everything* and overwrites `MENU_QUIT`. Use a literal, a dotted name (`case Menu.QUIT:`), or a guard. No warning, silent behavior — pure quiz material.
-- **The GIL never made `+=` atomic** — and now it matters more. `count += 1` is multiple bytecodes, and the GIL can switch threads between them (`sys.getswitchinterval()` defaults to 5 ms), so unsynchronized counters lose updates even on classic builds. Python 3.13 shipped an experimental free-threaded build ([PEP 703](https://peps.python.org/pep-0703/)) that removes the GIL outright, and 3.14 promotes free-threading to officially supported, though still not the default — check the release notes for your exact version. What used to be a rare, hard-to-hit race becomes an everyday race there. Locks and queues were always the right answer; they're now the only answer.
+Through 3.13, this died at definition time unless you quoted the name or used `from __future__ import annotations`:
 
-> **Gotcha:** "The GIL protects me" was never true for compound operations — it only made the race window small. If your concurrency plan is "the GIL serializes things," you don't have a plan, and a free-threaded build will eventually demonstrate that in production.
+```python
+def paint(c: Color) -> None:   # NameError if Color is defined below
+    ...
+class Color:
+    ...
+```
 
----
+Python 3.14 (PEP 649 / PEP 749) defers evaluation of annotations. The annotation is stored in an annotate function and computed when something asks. Forward references mostly just work. `from __future__ import annotations` still stringifies them; that is a different execution model, and libraries that inspect `__annotations__` directly can still be surprised.
 
-## The quiz speed round
+If you write libraries that read annotations at import time and expect a real class object, you now need `annotationlib` (or `typing.get_type_hints`) and you need to pick a format: `VALUE`, `FORWARDREF`, or `STRING`. `VALUE` can still raise `NameError`. That is not theoretical; annotation-reading frameworks had to adapt.
 
-Everything above, compressed into the table I wish someone had handed me in 2005:
+I am not going to pretend this is a student quiz item. It is a "why did our decorator explode on 3.14" item. The underlying rule is familiar: **when** an expression runs matters as much as **what** it says. Defaults run at `def`. Closures look up at call. Annotations, as of 3.14, run when inspected.
 
-| Expression | Result | The one-line trap |
-|---|---|---|
-| `f(); f()` where `def f(a=[])` | `[x], [x, y]` | defaults are built once, at `def` time |
-| `[lambda: i for i in range(3)]` called | `[2, 2, 2]` | closures share one cell; bind with `i=i` |
-| `print(x); x = 1` inside a function | `UnboundLocalError` | assignment anywhere ⇒ local everywhere |
-| `t = ([],); t[0] += [1]` | `TypeError`, but `t == ([1],)` | mutate succeeds, *then* store fails |
-| `[[0]*2]*2`, set `[0][0]=9` | both rows change | `*` replicates references, not objects |
-| `x = [3,1].sort()` | `x is None` | `sort()` mutates in place; `sorted()` returns |
-| `{True: "a", 1: "b"}` | `{True: 'b'}` | `True == 1`, same hash ⇒ same slot |
-| `False == False in [False]` | `True` | chained: `(False==False) and (False in …)` |
-| `round(2.5)`, `round(3.5)` | `2`, `4` | round-half-to-even |
-| `nan == nan` vs `nan in [nan]` | `False`, then `True` | membership checks identity *or* equality |
-| `-7 // 2` | `-4` | floor, not truncation (C++ gives `-3`) |
-| `g = (x*x for x in range(3)); sum(g); sum(g)` | `5`, then `0` | generators are single-use |
-| `case CONST:` in `match` | matches *everything* | bare names bind; use literals or dotted names |
+Template strings (`t"..."` in 3.14, PEP 750) are a related "when does this run?" feature. Interpolations are eager, like f-strings. They are not lazy. If you needed laziness, you still wrap it yourself.
 
----
+## What to do this week
 
-## Keeping all of this out of your codebase
+Do these in order. Do not make a poster of gotchas and call it studying.
 
-Memorizing this article is the anti-goal. The goal is a pipeline where these bugs can't survive:
+1. **Draw names and objects for one buggy function.** Boxes for objects, arrows from names. If two arrows hit one list, you have explained mutable defaults, class attributes, `y = x`, and `[[]]*n` with the same picture.
+2. **Ban `is` for ints and strs in your code.** `ruff` can enforce `None` comparisons. The rest is habit.
+3. **Grep your repo for `= []` and `= {}` in parameter lists.** Also grep class bodies. Replace with `None` + allocate, or `field(default_factory=...)`.
+4. **Write four unit tests that should fail on the happy-path version:** two calls to a default-arg function; two instances of a class with a list attribute; a closure factory in a loop; `{True: 1, 1: 2}`.
+5. **When an AI writes a helper,** ask it: "Which names are rebound, which objects are mutated, and when is the default evaluated?" If it cannot answer, do not paste the helper in.
+6. **On a quiz, translate before you answer.** Replace `+=` with "mutate then assign." Replace a lambda in a loop with "look up this name later." Replace `is` with `id(a) == id(b)`.
 
-1. **Lint with teeth.** [Ruff's rule set](https://docs.astral.sh/ruff/rules/) covers the classics — `B006`/`B008` (defaults), `B023` (loop capture), `B012` (`return`/`break` in `finally`, which silently swallows in-flight exceptions), `ISC` (implicit string concat). Put `ruff check --select B,ISC .` in pre-commit and CI.
-2. **Make warnings fatal in tests.** `python -W error::SyntaxWarning -m pytest` turns `is`-with-a-literal into a failing build instead of a shrug.
-3. **Know your type checker's limits.** mypy and pyright will not save you here — these are *semantic* bugs in perfectly well-typed code. That's what the linter and the tests are for.
-4. **Review for the four machines, not the thirty symptoms.** When I review, I ask four questions: What runs at import/def time? Who else holds a reference to this object? Am I relying on an implementation detail? Is this number a measurement or a ledger entry? Four questions catch what thirty flashcards won't.
+If a snippet still feels cursed after you draw the arrows, it is probably `__iadd__` on an immutable container, or `bool` pretending to be `int`. Those two are the remaining gremlins. They are also in the table.
 
-**The checklist, for Monday morning:**
+I do not want you memorizing twenty party tricks. I want you to see one machine — names, objects, binding time — so the next trick is obvious.
 
-- [ ] Run `ruff check --select B,ISC .` on your oldest service; fix or `noqa` with comments.
-- [ ] `rg 'def \w+\([^)]*=\s*(\[\]|\{\})'` — audit every hit; convert to `None`/sentinel.
-- [ ] Search class bodies for mutable attributes; convert to `field(default_factory=...)`.
-- [ ] Add `-W error::SyntaxWarning` to your test invocation.
-- [ ] Grep currency and ledger code for `float`; quarantine it behind `Decimal("...")` or integer cents with an explicit rounding mode.
-- [ ] Add `strict=True` to every `zip` in data-joining code.
-- [ ] If free-threaded Python is on your roadmap, audit shared mutable state and counters *now*, and run the suite on the `t`-suffixed build.
+**References**
 
-Gotchas aren't trivia, and they were never really about Python being quirky. They're the visible seams of four design decisions — early evaluation, name binding, implementation freedom, and honest arithmetic — most of which were the *right* call for the language Python set out to be. Learn the machines and the seams stop surprising you. You'll also start winning the quizzes, but by then you won't care, because you'll be the one writing them.
-
-**Sources:** [Python Programming FAQ](https://docs.python.org/3/faq/programming.html) · [Python Data Model](https://docs.python.org/3/reference/datamodel.html) · [Floating Point Arithmetic: Issues and Limitations](https://docs.python.org/3/tutorial/floatingpoint.html) · [PEP 703 — Making the Global Interpreter Lock Optional](https://peps.python.org/pep-0703/) · [Ruff rules](https://docs.astral.sh/ruff/rules/)
+- [Programming FAQ](https://docs.python.org/3/faq/programming.html) — mutable defaults, `UnboundLocalError`, late-binding closures, `+=` on tuples, multidimensional lists.
+- [Data model](https://docs.python.org/3/reference/datamodel.html) — identity, type, value; mutability; `__eq__` / `__hash__`.
+- [What’s New in Python 3.14](https://docs.python.org/3/whatsnew/3.14.html) — deferred annotations (PEP 649 / 749), template strings (PEP 750).
+- Luciano Ramalho, *Fluent Python* — the names-and-objects chapter is the one I send people to when the FAQ is not enough.
+- [PEP 8](https://peps.python.org/pep-0008/) — `is None`, and the rest of the comparisons people skip.
