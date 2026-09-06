@@ -2,7 +2,7 @@
 draft       = false
 featured    = false
 title       = "C++ Iterator Invalidation"
-slug        = "the-title-of-the-post"
+slug        = "c++-iterator-invalidation"
 description = "Iterator invalidation is one of C++’s most unforgiving pitfalls."
 ogImage     = "./c++-iterator-invalidation.png"
 pubDatetime = 2025-02-19T16:00:00Z
