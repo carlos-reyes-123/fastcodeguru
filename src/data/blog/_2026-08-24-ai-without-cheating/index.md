@@ -1,6 +1,6 @@
 +++
 draft       = false
-featured    = false
+featured    = true
 title       = "How to Use ChatGPT on a CS Assignment Without Cheating — or Staying Lost"
 slug        = "ai-without-cheating"
 description = "Pasting the homework PDF into ChatGPT gets you working code in four minutes — and a student who cannot explain a single function in office hours."

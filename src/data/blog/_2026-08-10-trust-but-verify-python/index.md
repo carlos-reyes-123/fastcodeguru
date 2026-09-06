@@ -1,6 +1,6 @@
 +++
 draft       = false
-featured    = true
+featured    = false
 title       = "Trust, But Verify: A Survival Guide for AI-Generated Python Code"
 slug        = "trust-but-verify-python"
 description = "Welcome to 2026, where we can generate a thousand lines of Python in the time it takes to brew coffee, but we still can't guarantee it won't bankrupt us."
