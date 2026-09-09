@@ -1,5 +1,5 @@
 +++
-title       = "Tutoring & Mentorship"
+title       = "Tutoring"
 description = "One-on-one computer science tutoring and coding mentorship — C++, Python, algorithms, and AI-assisted coding — with a Columbia CS grad and 40-year software veteran."
 author      = "Carlos Reyes"
 layout      = "../layouts/PageLayout.astro"
